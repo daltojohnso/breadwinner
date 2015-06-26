@@ -1,0 +1,20 @@
+.brd-bar {
+	display: inline-block;
+	height: 100%;
+	background-color: red;
+	opacity: .5;
+}
+/*
+.brd-bar-1 {
+	border-left: 3px black solid;
+
+}
+
+.brd-bar {
+	border-top: 3px black solid;
+	border-bottom: 3px black solid;
+}*/
+
+.brd-bar-current {
+	border-right: 3px black solid;
+}

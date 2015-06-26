@@ -1,0 +1,67 @@
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, 
+.fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row,
+.fc-unthemed .fc-popover {
+	border-color: #626262;
+}
+
+.fc-toolbar .fc-left {
+	position: relative;
+	top: 6px;
+}
+
+.brd-shell-main-cal {
+	position: absolute;
+	margin-bottom: 10px;
+	top: 25px;
+	width: 90%;
+	left: 5%;
+
+}
+
+
+/*Allow pointer-events through*/
+.fc-slats, /*horizontals*/
+.fc-content-skeleton, /*day numbers*/
+.fc-bgevent-skeleton, /*events container*/
+.fc-content, .fc-event-container,
+.fc-event-container a, .fc-event-container div,
+.fc-content-skeleton tbody .fc-event-container {
+    pointer-events:none
+}
+
+.fc-bgevent,
+.fc-event-container{
+    pointer-events:auto; 
+}
+
+.fc-day:hover {
+	background-color: #C8C5C5;
+	opacity: .5;
+	cursor: pointer;
+}
+
+.fc-day-hover {
+	background-color: #C8C5C5;
+	opacity: .5;
+}
+
+.fc-event {
+
+}
+
+.fc-toolbar {
+	margin-bottom: 5px;
+}
+
+.fc-unthemed .fc-today {
+	background: #C8C5C5;
+}
+
+.fc-content .fc-time {
+	display: none;
+}
+
+.fc-day-header, .fc-widget-header {
+	color: #FFF;
+	background-color: #888;
+}

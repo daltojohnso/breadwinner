@@ -1,0 +1,44 @@
+.brd-form-salary fieldset {
+	border: none;
+}
+
+.brd-button-salary {
+	position: relative;
+	top: 12px;
+	left: 210px;
+	padding: 6px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.rd-container.rd-container-attachment {
+	z-index: 3;
+}
+.brd-form-salary fieldset input {
+	padding: 6px;
+	margin-bottom: 10px;
+}
+
+.brd-form-salary fieldset > input, .brd-form-salary fieldset > label {
+	display: block;
+	font: 16px;
+}
+
+.brd-form-salary fieldset > label {
+	margin-bottom: 4px;
+}
+
+#brd-salary-options {
+	position: relative;
+	right: 8px;
+	padding: 5px;
+}
+
+/*
+.brd-form fieldset .brd-validation-fail {
+	border: 1px red solid;
+}
+
+.brd-form fieldset .brd-validation-fail:focus {
+	border: 1px red solid;
+}*/

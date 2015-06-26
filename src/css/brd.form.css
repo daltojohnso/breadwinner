@@ -1,0 +1,109 @@
+.brd-form, .brd-form-head, .brd-form-target {
+	position: absolute;
+}
+
+.brd-form {
+	bottom: 93px;
+	right: 18px;
+	width: 330px;
+	height: 470px;
+	background: #fff;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #888;
+	z-index: 1;
+	overflow: hidden;
+	opacity: 0;
+
+	-webkit-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
+	-moz-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
+	box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
+
+}
+
+.brd-form-head {
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 36px;
+	background-color: #888;
+
+}
+
+.brd-form-exit {
+	position: absolute;
+	right: 0;
+	padding: 5px 8px 5px 8px;
+	margin: 1px 1px 0 0;
+}
+
+.brd-form-target {
+	top: 40px;
+	left: 1%;
+	right: 1%;
+	bottom: 1%;
+}
+
+.brd-form legend {
+	font-size: 22px;
+	margin-bottom: 0;
+}
+
+
+
+@media (max-height: 600px) {
+	.brd-form {
+		bottom: 70px;
+	}
+}
+
+@media (max-height: 520px) {
+	.brd-form {
+		height: 380px;
+	}
+}
+
+@media (max-height: 475px) {
+	.brd-form {
+		z-index: 2;
+		bottom: 10px;
+	}
+}
+
+@media (max-height: 400px) {
+	.brd-form {
+		
+	}
+}
+
+@media (max-width: 300px) {
+	.brd-form {
+		width: 250px;
+	}
+}
+
+@media (max-width: 415px) {
+	.brd-form {
+		width: 270px;
+	}
+
+	.brd-transaction-button {
+		top: 12px;
+		left: 165px;
+	}
+	.brd-salary-button {
+		top: 12px;
+		left: 165px;
+	}
+}
+
+@media (max-height: 400px) {
+	.brd-form {
+		width: 340px;
+		height: 290px;
+	}
+
+	.brd-form-main label {
+		display: none;
+	}
+}

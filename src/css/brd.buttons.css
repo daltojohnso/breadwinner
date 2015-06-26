@@ -1,0 +1,46 @@
+.brd-shell-main-buttons {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	height: 100%;
+
+}
+
+.brd-buttons-main a {
+	/*right: 20px;*/
+	margin-left: 10px;
+	margin-top: 8px;
+	text-decoration: none;
+	cursor: pointer;
+	color: #000;
+	font-size: 50px;
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.brd-link-expense {
+	margin-right: 20px;
+}
+
+.brd-link-income {
+	margin-left: 20px;
+}
+
+.brd-buttons-main li {
+	display: inline;
+}
+
+.brd-buttons-main ul {
+	margin: 0;
+	padding: 0;
+	height: 130px;
+}
+
+@media (max-height: 600px) {
+	.brd-buttons-main a {
+		padding-top: 0;
+		padding-bottom: 0;
+		margin-top: 6px;
+	}
+}

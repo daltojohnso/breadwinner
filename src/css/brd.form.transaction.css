@@ -1,0 +1,61 @@
+.brd-form-transaction > fieldset {
+	border: none;
+}
+
+.brd-button-transaction {
+	position: relative;
+	top: 12px;
+	left: 210px;
+	padding: 6px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.rd-container.rd-container-attachment {
+	z-index: 3;
+}
+.brd-form-transaction fieldset input {
+	padding: 6px;
+	margin-bottom: 10px;
+}
+
+.brd-form-transaction fieldset > input, .brd-form-transaction fieldset > label {
+	display: block;
+	font: 16px;
+}
+
+.brd-form-transaction fieldset > label {
+	margin-bottom: 4px;
+}
+
+.brd-form-transaction fieldset .brd-radio {
+	display: inline-block;
+	padding: 0px;
+	margin-top: 2px;
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+.brd-form-transaction fieldset .brd-radio input {
+	margin-right: 4px;
+}
+
+
+.brd-form-transaction .brd-radio-fieldset {
+	border: none;
+	padding: 0;
+}
+
+.brd-form fieldset .brd-validation-fail {
+	  outline-color: red;
+	  outline-offset: -2px;
+	  outline-style: auto;
+	  outline-width: 5px;
+}
+/*
+.brd-form fieldset .brd-validation-fail:focus {
+	  outline-color: red;
+	  outline-offset: -2px;
+	  outline-style: auto;
+	  outline-width: 5px;
+}*/
