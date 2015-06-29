@@ -67,7 +67,7 @@ brd.form.salary = (function() {
 				stateMap.salary = amount;
 				stateMap.salaryType = salaryType;
 
-				$.event.trigger('salaryupdate', [newMonthlyIncome, salaryType]);
+				$.event.trigger('newsalary', [newMonthlyIncome, salaryType]);
 				return true;
 			}
 			return false;

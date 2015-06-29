@@ -2,9 +2,9 @@ brd.shell = (function() {
 	'use strict';
 	var configMap = {
 		mainHtml:	'<div class="brd-shell-head">' +
-						//'<div class="brd-shell-head-logo">' +
-						//	'<h1>breadWinner</h1>' +
-						//'</div>' +
+						'<div class="brd-shell-head-logo">' +
+							'<h1>breadWinner</h1>' +
+						'</div>' +
 					'</div>' +
 					'<div class="brd-shell-main">' +
 						'<div class="brd-shell-main-cal-outer">' +
@@ -15,7 +15,8 @@ brd.shell = (function() {
 					'<div class="brd-shell-foot">' +
 						'<div class="brd-shell-main-buttons"></div>' +
 					'</div>',
-		dateFormat: 'DD-MM-YYYY'
+		dateFormat: 'DD-MM-YYYY',
+		monthDateFormat: 'MM-YYYY'
 	},
 	stateMap = {
 		$container: undefined
@@ -38,7 +39,7 @@ brd.shell = (function() {
 		$(document).on('transaction', function(event, name, amount, date, type, id) {
 			brd.model.add(name, amount, date, type, id);
 		})
-		.on('salaryupdate', function(event, salary, salaryType) {
+		.on('newsalary', function(event, salary, salaryType) {
 			var monthMoment = moment().format('MM-YYYY');
 			brd.model.setSalary(salary, salaryType, monthMoment);
 		})
@@ -94,7 +95,7 @@ brd.shell = (function() {
 			brd.form.show('salary');
 		})
 		.on('dayclick', function(event, date) {
-			var dateString = date.format('DD-MM-YYYY');
+			var dateString = date.format(configMap.dateFormat);
 			///brd.form.show('transaction', {date: dateString});
 			var transactions = brd.model.getMonthTransactions(dateString);
 			brd.form.show('day', {transactions: transactions, date: dateString});

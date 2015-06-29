@@ -43,7 +43,7 @@ brd.form = (function() {
 		$(window).on('transaction', function(event) {
 			close();
 		})
-		.on('salaryupdate', function(event) {
+		.on('newsalary', function(event) {
 			close();
 		});
 

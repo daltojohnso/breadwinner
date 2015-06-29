@@ -8,13 +8,11 @@ html, body, #brd {
 	height: 100%;
 }
 
-
-
 .brd-shell-head {
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 20px;
+	height: 32px;
 	background-color: #888;
 }
 	.brd-shell-head-logo {
@@ -29,7 +27,7 @@ html, body, #brd {
 	}
 	
 .brd-shell-main {
-	top: 30px;
+	top: 32px;
 	bottom: 130px;
 	left: 0;
 	right: 0;

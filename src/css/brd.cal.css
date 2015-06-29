@@ -12,12 +12,11 @@
 .brd-shell-main-cal {
 	position: absolute;
 	margin-bottom: 10px;
-	top: 25px;
+	top: 34px;
 	width: 90%;
 	left: 5%;
 
 }
-
 
 /*Allow pointer-events through*/
 .fc-slats, /*horizontals*/
