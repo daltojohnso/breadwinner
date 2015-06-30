@@ -35,14 +35,12 @@ brd.shell = (function() {
 	};
 
 	setupListeners = function() {
-
-
 		$(document)
 		.on('transaction', function(event, name, amount, date, type, id) {
 			brd.model.add(name, amount, date, type, id);
 		})
 		.on('newsalary', function(event, salary, salaryType) {
-			var monthMoment = moment().format('MM-YYYY');
+			var monthMoment = moment().format(configMap.monthDateFormat);
 			brd.model.setSalary(salary, salaryType, monthMoment);
 		})
 		.on('modelupdate', function(event, transaction, totalExpenses, totalIncome) {
@@ -69,13 +67,13 @@ brd.shell = (function() {
 			monthTransactions = brd.model.getMonthTransactions(monthDateString);
 
 			brd.bar.initModule(jqueryMap.$calendar, monthData);
-			brd.cal.addEvents(monthTransactions);
+			brd.cal.recalculate(monthTransactions);
 		})
 		.on('deletetransaction', function(event, transaction) {
 			var amount = +transaction.amount,
 			type = transaction.type,
 			tid = transaction.id,
-			month = transaction.start.format('MM-YYYY');
+			month = transaction.start.format(configMap.monthDateFormat);
 
 			brd.model.deleteTransaction(month, tid, amount, type);
 		})
@@ -103,7 +101,7 @@ brd.shell = (function() {
 			var dateString = date.format(configMap.dateFormat);
 			brd.form.show('transaction', {date: dateString});
 		});
-	}
+	};
 	
 	initModule = function($container) {
 		var monthData, monthTransactions, momentString, salaryData;
@@ -113,11 +111,11 @@ brd.shell = (function() {
 		setJqueryMap();
 		setupListeners();
 
-		momentString = moment().format('MM-YYYY');
+		momentString = moment().format(configMap.monthDateFormat);
 		monthData = brd.model.getMonthData(momentString);
 		monthTransactions = brd.model.getMonthTransactions(momentString);
 		salaryData = brd.model.getSalary();
-		
+
 		brd.cal.initModule(jqueryMap.$calendar);
 		brd.cal.addEvents(monthTransactions);
 		brd.bar.initModule(jqueryMap.$calendar, monthData);

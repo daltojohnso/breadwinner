@@ -1,7 +1,8 @@
 brd.cal = (function() {
 	'use strict';
 	var configMap = {
-		defaultRatio: 2.15
+		dateFormat: 'DD-MM-YYYY',
+		dayClickTimer: 200
 	},
 	stateMap = {
 		$calendar: undefined,
@@ -28,9 +29,8 @@ brd.cal = (function() {
 
 
 	createEvent = function(name, amount, date, type, id) {
-		//var event, color;
-		var newEvent;
-		var dateEvents = stateMap.$calendar.fullCalendar('clientEvents', date.format('DD-MM-YYYY'));
+		var newEvent,
+		dateEvents = stateMap.$calendar.fullCalendar('clientEvents', date.format(configMap.dateFormat));
 
 		if (dateEvents.length) {
 			var dateEvent = dateEvents[0];
@@ -46,30 +46,11 @@ brd.cal = (function() {
 				count: 1,
 				start: date,
 				backgroundColor: '#FF3333',
-				id: date.format('DD-MM-YYYY')
+				id: date.format(configMap.dateFormat)
 			};
 			newEvent[id] = true;
 			stateMap.$calendar.fullCalendar('renderEvent', newEvent);
-
 		}
-		/*if (type === 'expense') {
-			color = '#FF3333';
-		} else {
-			color = '#338533';
-		}*/
-
-		/*event = {
-			title: name + ' - $' + amount,
-			start: date,
-			description: amount,
-			amount: amount,
-			type: type,
-			id: id,
-			backgroundColor: color,
-			borderColor: '#888'
-
-		};*/
-	
 	};
 
 	addEvents = function(events) {
@@ -77,9 +58,8 @@ brd.cal = (function() {
 		for (eventId in events) {
 			if (events.hasOwnProperty(eventId)) {
 				event = events[eventId];
-				createEvent(event.name, event.amount, moment(event.date, 'DD-MM-YYYY'), event.type, event.id);  //!!!!!!!!!!!!
+				createEvent(event.name, event.amount, moment(event.date, configMap.dateFormat), event.type, event.id);  //!!!!!!!!!!!!
 			}
-
 		}
 	};
 
@@ -94,13 +74,9 @@ brd.cal = (function() {
 	showMonth = function(date) {
 		jqueryMap.$calendar.fullCalendar('gotoDate', date);
 		$.event.trigger('calendarchange', [date.format('MM-YYYY')]);
-		recalculate(monthTransactions);
 	};
 
 	setListeners = function() {
-
-
-
 		jqueryMap.$day.on('click', function(e) {
 			stateMap.dayClicks++;
 			var date = moment($(this).data().date);
@@ -108,7 +84,7 @@ brd.cal = (function() {
 				stateMap.dayClickTimer = setTimeout(function() {
 					$.event.trigger('dayclick', [date]);
 					stateMap.dayClicks = 0;
-				}, 200);
+				}, configMap.dayClickTimer);
 			} else {
 				clearTimeout(stateMap.dayClickTimer);
 				$.event.trigger('daydbclick', [date]);
@@ -118,13 +94,6 @@ brd.cal = (function() {
 		.on('dbclick', function(e) {
 			e.preventDefault();
 		});
-
-		/*jqueryMap.$day.dblclick(function(event) {
-			clearTimeout(stateMap.clickEvent);
-			var date = $(this).data().date;
-			date = moment(date);
-			$.event.trigger('daydbclick', [date]);
-		});*/
 
 		$(window).resize(resizeCalendar);
 	};
@@ -142,10 +111,8 @@ brd.cal = (function() {
 	};
 
 	recalculate = function(events) {
-		//jqueryMap.$buttons.unbind('click');
 		jqueryMap.$day.unbind('click');
 		jqueryMap.$day.unbind('dbclick');
-		//unbinding button click breaks it... why?
 
 		addEvents(events);
 		setJqueryMap();
@@ -154,25 +121,16 @@ brd.cal = (function() {
 
 	initModule = function($calendar) {
 		stateMap.$calendar = $calendar;
+		
 		$calendar.fullCalendar({
-		//	dayClick: function(date, jsEvent, view) {
-			//	stateMap.clickEvent = setTimeout(function() {
-			//		$.event.trigger('dayclick', [date]);
-			//	}, 300);		
-		//	},
 			eventRender: function(thisEvent, element) {
-				//element.append('<span class="brd-event-close">X</span>');
 				element.find('.brd-event-close').click(function() {
 					stateMap.$calendar.fullCalendar('removeEvents', thisEvent._id);
 					$.event.trigger('deletetransaction', [thisEvent])
 				});
-				///element.qtip({
-				//	content: event.description
-				//});
 			},
 			eventClick: function(event, jsEvent, view) {
-				//destroyEvent();
-				//$.event.trigger('destroyEvent' [event])
+
 			},
 			eventAfterRender: function(event, element, view) {
 				$(element).css('width', '50px');
@@ -180,24 +138,13 @@ brd.cal = (function() {
 		});
 		setJqueryMap();
 
+		//doesn't need to be reset, so keeping it here for now.
 		jqueryMap.$buttons.click(function(event) {
 			var date = jqueryMap.$calendar.fullCalendar('getDate').format('MM-YYYY');
 			$.event.trigger('calendarchange', [date]);
 		});
-		
 		setListeners();
-
-		configMap.windowRatio = window.innerWidth / window.innerHeight;
-		resizeCalendar();
-
-
-		brd.cal.num.initModule(jqueryMap.$calendar);
-		//trigger 'newMonthShown' to start off the data loading process?
-
-
-
-
-		
+		resizeCalendar();	
 	};
 	
 	return {
@@ -206,8 +153,8 @@ brd.cal = (function() {
 		getDate: getDate,
 		getDaysInMonth: getDaysInMonth,
 		showMonth: showMonth,
-		recalculate: recalculate,
-		addEvents: addEvents
+		addEvents: addEvents,
+		recalculate: recalculate
 	};
 	
 }());
