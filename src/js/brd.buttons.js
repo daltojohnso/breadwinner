@@ -35,10 +35,10 @@ brd.buttons = (function() {
 		setJqueryMap();
 
 		jqueryMap.$transactionLink.click(function(event) {
-			$.event.trigger('transactionLinkClick');
+			$.event.trigger('transactionbuttonclick');
 		});
 		jqueryMap.$salaryLink.click(function(event) {
-			$.event.trigger('salaryLinkClick');
+			$.event.trigger('salarybuttonclick');
 		});
 	};
 

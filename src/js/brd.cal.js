@@ -94,6 +94,7 @@ brd.cal = (function() {
 	showMonth = function(date) {
 		jqueryMap.$calendar.fullCalendar('gotoDate', date);
 		$.event.trigger('calendarchange', [date.format('MM-YYYY')]);
+		recalculate(monthTransactions);
 	};
 
 	setListeners = function() {

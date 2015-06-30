@@ -45,7 +45,7 @@ brd.form.day = (function() {
 	setListeners = function() {
 		jqueryMap.$transactions.click(function() {
 			var id = $(this).data().id;
-			$.event.trigger('transactionClick', [id]);
+			$.event.trigger('transactionclick', [id]);
 		});
 	};
 
