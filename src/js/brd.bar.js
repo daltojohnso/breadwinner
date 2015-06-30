@@ -23,11 +23,10 @@ brd.bar = (function() {
 	initModule, setJqueryMap, add,
 	addIncome, setIncome, getIncome, addExpenses, setExpenses, getExpenses, setSalary, getSalary,
 	updateBar, getNextDiv, getPrevDiv, fillCurrentDiv,
-	convertDateValueToString, buildDataDateStrings, appendDivsToDays, initializeBar,
-	setDaysInMonth, add, loadInitialData, setupStateMap, subtractExpense, subtractIncome, subtract, set;
+	convertDateValueToString, buildYearMonthDateString, appendDivsToDays, initializeBar,
+	setDaysInMonth, add, loadInitialData, clearStateMap, subtractExpense, subtractIncome, subtract, set;
 
 	set = function(newExpenses, newIncome, type) {
-		//calculate percentages and then subtract to get the difference.
 		stateMap.expenses = newExpenses;
 		stateMap.income = newIncome;
 
@@ -36,7 +35,6 @@ brd.bar = (function() {
 		} else if (type === 'update') {
 			updateBar(configMap.barSpeed);
 		}
-
 	}
 
 	setDaysInMonth = function(daysInMonth) {
@@ -127,34 +125,38 @@ brd.bar = (function() {
 	};
 
 	
-	buildDataDateStrings = function() {
-		var currentMoment, currentMonth, currentYear, monthString,
-		nextMonth, nextMonthYear, nextMonthString, nextMonthMoment,
-		prevMonthMoment, prevMonth, prevMonthYear, prevMonthString, yearMonthString;
+	buildYearMonthDateString = function() {
+		var currentMoment, currentMonth, currentYear, monthString, yearMonthString;
+
 		function convertMonthToString(month) {
 			if (month < 10) return '0' + month;
 			else return '' + month;
 		}
+
 		currentMoment = stateMap.$calendar.fullCalendar('getDate');
+		currentYear = currentMoment.year();
+		currentMonth = currentMoment.month() + 1;
+		monthString = convertMonthToString(currentMonth);
+		yearMonthString = currentYear + '-' + monthString;
+		stateMap.dateStrings.yearMonthString = yearMonthString;
+
+		//Saving these strings for now... probably need to delete because I doubt I'll do anything with them.
+		/*
 		nextMonthMoment = currentMoment.clone().add(1, 'month');
 		prevMonthMoment = currentMoment.clone().subtract(1, 'month');
-		currentMonth = currentMoment.month() + 1;
-		currentYear = currentMoment.year();
 		nextMonth = nextMonthMoment.month() + 1;
 		nextMonthYear = nextMonthMoment.year();
 		prevMonth = prevMonthMoment.month() + 1;
 		prevMonthYear = prevMonthMoment.year(); 
-		monthString = convertMonthToString(currentMonth);
 		nextMonthString = convertMonthToString(nextMonth);
 		prevMonthString = convertMonthToString(prevMonth);
-		
-		yearMonthString = currentYear + '-' + monthString;
+
 		stateMap.dateStrings.monthString = monthString;
-		stateMap.dateStrings.yearMonthString = yearMonthString;
 		stateMap.dateStrings.nextYearMonthString = nextMonthYear + '-' + nextMonthString;
 		stateMap.dateStrings.prevYearMonthString = prevMonthYear + '-'+ prevMonthString;
 		stateMap.dateStrings.firstDayString = yearMonthString + '-01';
 		stateMap.dateStrings.nextMonthFirstDayString = stateMap.dateStrings.nextYearMonthString + '-01';
+		*/
 	};
 		
 	setJqueryMap = function() {
@@ -163,11 +165,7 @@ brd.bar = (function() {
 		jqueryMap = {
 			$calendar: $calendar,
 			$days: $calendar.find('.fc-day'),
-			$weeks: $weeks,
-			$firstWeek: $weeks.first().find('.fc-day'),
-			$lastWeek: $weeks.last().find('.fc-day'),
-			$firstDay: $calendar.find('.fc-day[data-date="' + stateMap.dateStrings.firstDayString + '"]'),
-			$firstDayOfNextMonth: $calendar.find('.fc-day[data-date="' + stateMap.dateStrings.nextMonthFirstDayString + '"]')
+			$weeks: $weeks
 		}
 	};
 
@@ -184,7 +182,7 @@ brd.bar = (function() {
 	initializeBar = function() {
 		stateMap.bar.currentDay = 1;
 		stateMap.bar.currentPercent = 0;
-		stateMap.bar.currentBar = $('#brd-bar-' + stateMap.bar.currentDay);
+		stateMap.bar.currentBar = $('#brd-bar-1');
 		stateMap.bar.currentBar.addClass('brd-bar-1 brd-bar-current')
 	};
 
@@ -196,7 +194,7 @@ brd.bar = (function() {
 		return true;
 	};
 
-	setupStateMap = function() {
+	clearStateMap = function() {
 		stateMap.$calendar = undefined;
 		stateMap.dateStrings = {};
 		stateMap.expenses = 0;
@@ -206,9 +204,10 @@ brd.bar = (function() {
 	};
 	
 	initModule = function($calendar, data) {
-		setupStateMap();
+		clearStateMap();
 		stateMap.$calendar = $calendar;
-		buildDataDateStrings();
+
+		buildYearMonthDateString();
 		setJqueryMap();
 		appendDivsToDays();
 		initializeBar();

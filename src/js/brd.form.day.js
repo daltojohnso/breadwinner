@@ -87,6 +87,7 @@ brd.form.day = (function() {
 	};
 
 	//if transaction form is already open, maybe don't open day but just fill date?
+	//add a back button to go back to the transaction list.
 	initModule = function($formTarget) {
 		$formTarget.append(configMap.html);
 		stateMap.$formTarget = $formTarget;

@@ -8,7 +8,7 @@ brd.buttons = (function() {
 						'<a href="#" class="brd-link-transaction pure-button">+</a>',
 					'</li>',
 					'<li class="brd-buttons-salary">',	
-						'<a href="#" class="brd-link-salary pure-button">Salary</a>',
+						'<a href="#" class="brd-link-salary pure-button">$</a>',
 					'</li>',
 				'</ul>',
 			'</div>'

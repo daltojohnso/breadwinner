@@ -5,7 +5,7 @@ brd.form.transaction = (function() {
 				'<div class="brd-form-transaction-wrapper">',
 					'<form class="brd-form-transaction" id="brd-form-transaction">',
 						'<fieldset>',
-							'<legend>Submit a new transaction</legend>',
+							'<legend>Create a transaction</legend>',
 
 							'<fieldset class="brd-radio-fieldset">',
 								'<label for="brd-transaction-type-income" class="brd-radio">',
@@ -34,7 +34,8 @@ brd.form.transaction = (function() {
 		].join(''),
 		dateFormat: 'DD-MM-YYYY',
 		updateEvent: 'update',
-		newTransactionEvent: 'transaction'
+		newTransactionEvent: 'transaction',
+		validationFailCls: 'brd-validation-fail'
 	},
 	stateMap = {
 		$formTarget: undefined,
@@ -77,7 +78,7 @@ brd.form.transaction = (function() {
 		if (data) {
 			name = data.name || jqueryMap.$name.val();
 			amount = data.amount || jqueryMap.$amount.val();
-			date = data.date || jqueryMap.$date.val(); //moment().format(configMap.dateFormat)
+			date = data.date || jqueryMap.$date.val();
 			jqueryMap.$name.val(name);
 			jqueryMap.$amount.val(amount);
 			jqueryMap.$date.val(date);
@@ -96,7 +97,7 @@ brd.form.transaction = (function() {
 	reset = function() {
 		jqueryMap.$amount.val('');
 		jqueryMap.$name.val('');
-		jqueryMap.$date.val(moment().format('DD-MM-YYYY'));
+		jqueryMap.$date.val(moment().format(configMap.dateFormat));
 		jqueryMap.$radio.last().prop('checked', true);
 		stateMap.radioValue = 'expense';
 	};
@@ -122,9 +123,9 @@ brd.form.transaction = (function() {
 			var $form = $(this);
 			var amount = +$form.val();
 			if (window.isNaN(amount) || amount < 0) {
-				$form.addClass('brd-validation-fail');
+				$form.addClass(configMap.validationFailCls);
 			} else {
-				$form.removeClass('brd-validation-fail');
+				$form.removeClass(configMap.validationFailCls);
 			}
 		});
 
@@ -132,9 +133,9 @@ brd.form.transaction = (function() {
 			var $form = $(this);
 			var date = moment($form.val());
 			if (date.isValid()) {
-				$form.removeClass('brd-validation-fail');
+				$form.removeClass(configMap.validationFailCls);
 			} else {
-				$form.addClass('brd-validation-fail');
+				$form.addClass(configMap.validationFailCls);
 			}
 		});
 
@@ -142,9 +143,9 @@ brd.form.transaction = (function() {
 			var $form = $(this);
 			var name = $form.val();
 			if (name.length > 20) {
-				$form.addClass('brd-validation-fail');
+				$form.addClass(configMap.validationFailCls);
 			} else {
-				$form.removeClass('brd-validation-fail');
+				$form.removeClass(configMap.validationFailCls);
 			}
 		});
 
@@ -160,8 +161,8 @@ brd.form.transaction = (function() {
 		setListeners();
 		close();
 
-		rome(document.getElementById('brd-transaction-date'), { time: false, inputFormat: 'DD-MM-YYYY' });
-		jqueryMap.$date.val(moment().format('DD-MM-YYYY'));		
+		rome(document.getElementById('brd-transaction-date'), { time: false, inputFormat: configMap.dateFormat });
+		jqueryMap.$date.val(moment().format(configMap.dateFormat));		
 	};
 	
 	return {

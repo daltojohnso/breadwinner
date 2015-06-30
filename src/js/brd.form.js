@@ -40,7 +40,7 @@ brd.form = (function() {
 			close();
 		});
 
-		$(window).on('transaction', function(event) {
+		$(document).on('transaction', function(event) {
 			close();
 		})
 		.on('newsalary', function(event) {
@@ -90,9 +90,11 @@ brd.form = (function() {
 		stateMap.$appendTarget = $appendTarget;
 		setJqueryMap();
 		setListeners();
+
 		brd.form.transaction.initModule(jqueryMap.$formTarget);
 		brd.form.salary.initModule(jqueryMap.$formTarget, salaryData);
 		brd.form.day.initModule(jqueryMap.$formTarget);
+		
 		close();
 	};
 
