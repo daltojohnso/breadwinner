@@ -100,12 +100,10 @@ brd.cal = (function() {
 	};
 
 	resizeCalendar = function() {
-		var resizeTimer;
+		var resizeTimer = stateMap.resizeTimer;
 		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout(function() {
-			var width = window.innerWidth,
-			calendar = jqueryMap.$calendar,
-			windowHeight = window.innerHeight,
+		stateMap.resizeTimer = setTimeout(function() {
+			var calendar = jqueryMap.$calendar,
 			windowRatio = window.innerWidth / (window.innerHeight - 120);
 			calendar.fullCalendar('option', 'aspectRatio', windowRatio);
 		}, 300);
