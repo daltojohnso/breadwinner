@@ -13,7 +13,8 @@ brd.bar = (function() {
 		bar: {
 			currentBar: undefined,
 			currentDay: undefined,
-			currentPercent: undefined
+			currentPercent: undefined,
+			timeoutIds: []
 		},
 		expenses: undefined,
 		income: undefined,
@@ -24,7 +25,8 @@ brd.bar = (function() {
 	addIncome, setIncome, getIncome, addExpenses, setExpenses, getExpenses, setSalary, getSalary,
 	updateBar, getNextDiv, getPrevDiv, fillCurrentDiv,
 	convertDateValueToString, buildYearMonthDateString, appendDivsToDays, initializeBar,
-	setDaysInMonth, add, loadInitialData, clearStateMap, subtractExpense, subtractIncome, subtract, set;
+	setDaysInMonth, add, loadInitialData, clearStateMap, subtractExpense, subtractIncome, subtract, set,
+	stopBar;
 
 	set = function(newExpenses, newIncome, type) {
 		stateMap.expenses = newExpenses;
@@ -65,29 +67,33 @@ brd.bar = (function() {
 	};
 
 	getNextDiv = function() {
-		var lastDayOfMonth = stateMap.$calendar.fullCalendar('getDate').clone().endOf('month').date();
+		var lastDayOfMonth = stateMap.$calendar.fullCalendar('getDate').clone().endOf('month').date(),
+			bar = stateMap.bar;
 
-		if (stateMap.bar.currentDay > lastDayOfMonth) {
+		if (bar.currentDay > lastDayOfMonth) {
 			return false;
 		}
-		stateMap.bar.currentBar.removeClass(configMap.currentBarClass);
-		stateMap.bar.currentDay++;
-		stateMap.bar.currentPercent = 0;
-		stateMap.bar.currentBar = $('#brd-bar-' + stateMap.bar.currentDay);
-		stateMap.bar.currentBar.addClass(configMap.currentBarClass);
-		return stateMap.bar.currentBar;
+		bar.currentBar.removeClass(configMap.currentBarClass);
+		bar.currentDay++;
+		bar.currentPercent = 0;
+		//stateMap.bar.currentBar = $('#brd-bar-' + stateMap.bar.currentDay);
+		bar.currentBar = $('.brd-bar-' + bar.currentMonth + '-' + convertDateValueToString(bar.currentDay));
+		bar.currentBar.addClass(configMap.currentBarClass);
+		return bar.currentBar;
 	};
 
 	getPrevDiv = function() {
-		if (stateMap.bar.currentDay < 1) {
+		var bar = stateMap.bar;
+		if (bar.currentDay < 1) {
 			return false;
 		}
-		stateMap.bar.currentBar.removeClass(configMap.currentBarClass);
-		stateMap.bar.currentDay--;
-		stateMap.bar.currentPercent = 100;
-		stateMap.bar.currentBar = $('#brd-bar-' + stateMap.bar.currentDay);
-		stateMap.bar.currentBar.addClass(configMap.currentBarClass);
-		return stateMap.bar.currentBar;
+		bar.currentBar.removeClass(configMap.currentBarClass);
+		bar.currentDay--;
+		bar.currentPercent = 100;
+		//stateMap.bar.currentBar = $('#brd-bar-' + stateMap.bar.currentDay);
+		bar.currentBar = $('.brd-bar-' + bar.currentMonth + '-' + convertDateValueToString(bar.currentDay));
+		bar.currentBar.addClass(configMap.currentBarClass);
+		return bar.currentBar;
 	};
 
 	fillCurrentDiv = function(addedPercent, barSpeed) {
@@ -139,6 +145,7 @@ brd.bar = (function() {
 		monthString = convertMonthToString(currentMonth);
 		yearMonthString = currentYear + '-' + monthString;
 		stateMap.dateStrings.yearMonthString = yearMonthString;
+		stateMap.dateStrings.currentMonthString = monthString;
 
 		//Saving these strings for now... probably need to delete because I doubt I'll do anything with them.
 		/*
@@ -180,10 +187,12 @@ brd.bar = (function() {
 	};
 
 	initializeBar = function() {
-		stateMap.bar.currentDay = 1;
-		stateMap.bar.currentPercent = 0;
-		stateMap.bar.currentBar = $('#brd-bar-1');
-		stateMap.bar.currentBar.addClass('brd-bar-1 brd-bar-current')
+		var bar = stateMap.bar;
+		bar.currentDay = 1;
+		bar.currentMonth = stateMap.dateStrings.currentMonthString;
+		bar.currentPercent = 0;
+		bar.currentBar = $('.brd-bar-' + bar.currentMonth + '-01');
+		bar.currentBar.addClass('brd-bar-1 brd-bar-current')
 	};
 
 	loadInitialData = function(data) {
@@ -209,7 +218,7 @@ brd.bar = (function() {
 
 		buildYearMonthDateString();
 		setJqueryMap();
-		appendDivsToDays();
+		//appendDivsToDays();
 		initializeBar();
 		loadInitialData(data);
 	};
