@@ -1,7 +1,7 @@
 brd.cal = (function() {
 	'use strict';
 	var configMap = {
-		dateFormat: 'DD-MM-YYYY',
+		dateFormat: 'YYYY-MM-DD',
 		dayClickTimer: 200,
 		eventBackgroundColor: '#FF3333'
 	},
@@ -14,7 +14,7 @@ brd.cal = (function() {
 	},
 	jqueryMap = {},
 	setJqueryMap, initModule, createEvent, getDate, getDaysInMonth, setCalendarWidth,
-	setListeners, showMonth, deleteEvent, addEvents, resizeCalendar, recalculate;
+	setListeners, showMonth, deleteEvent, addEvents, resizeCalendar, recalculate, set;
 	
 	setJqueryMap = function() {
 		var $calendar = stateMap.$calendar;
@@ -109,7 +109,8 @@ brd.cal = (function() {
 		}, 300);
 	};
 
-	recalculate = function(events) {
+	recalculate = function(events, barData) {
+		brd.cal.bar.initModule(jqueryMap.$calendar, barData);
 		jqueryMap.$day.unbind('click');
 		jqueryMap.$day.unbind('dbclick');
 
@@ -118,7 +119,11 @@ brd.cal = (function() {
 		setListeners();
 	};
 
-	initModule = function($calendar) {
+	set = function() {
+		brd.cal.bar.set.apply(null, arguments);
+	};
+
+	initModule = function($calendar, monthData) {
 		stateMap.$calendar = $calendar;
 
 		$calendar.fullCalendar({
@@ -139,11 +144,13 @@ brd.cal = (function() {
 
 		//this event doesn't need to be reset on month change, so keeping it here for now.
 		jqueryMap.$buttons.click(function(event) {
-			var date = jqueryMap.$calendar.fullCalendar('getDate').format('MM-YYYY');
+			var date = jqueryMap.$calendar.fullCalendar('getDate').format('YYYY-MM');
 			$.event.trigger('calendarchange', [date]);
 		});
 		setListeners();
-		resizeCalendar();	
+		resizeCalendar();
+
+		brd.cal.bar.initModule(jqueryMap.$calendar, monthData);
 	};
 	
 	return {
@@ -153,7 +160,8 @@ brd.cal = (function() {
 		getDaysInMonth: getDaysInMonth,
 		showMonth: showMonth,
 		addEvents: addEvents,
-		recalculate: recalculate
+		recalculate: recalculate,
+		set: set
 	};
 	
 }());

@@ -22,7 +22,7 @@ brd.form = (function() {
 		child: undefined
 	},
 	initModule, jqueryMap, setJqueryMap, setListeners,
-	open, close, show, openChild, load;
+	open, close, show, load;
 
 	setJqueryMap = function() {
 		var $appendTarget = stateMap.$appendTarget;

@@ -3,8 +3,10 @@ brd.model = (function() {
 	var configMap = {
 		isConnected: false,
 		anonId: 'a0',
-		monthFormat: 'MM-YYYY',
-		dayFormat: 'DD-MM-YYYY'
+		//monthFormat: 'MM-YYYY',
+		monthFormat: 'YYYY-MM',
+		//dayFormat: 'DD-MM-YYYY',
+		dayFormat: 'YYYY-MM-DD'
 	},
 	stateMap = {
 		user: undefined,
@@ -17,7 +19,8 @@ brd.model = (function() {
 	makeUser, makeMonth, makeTransaction,
 	addMonth, addTransaction, add, addIncome, addExpense, setSalary,
 	getMonthData, getTransaction, deleteTransaction, subtract, subtractExpense,
-	subtractIncome, getMonthTransactions, getSalary, getStorageFunction, getTransaction, getDifference;
+	subtractIncome, getMonthTransactions, getSalary, getStorageFunction, getTransaction, getDifference,
+		getYearMonthFromFormattedDateString;
 
 	subtract = function(amount, type, monthDate) {
 		var month = stateMap.user.months[monthDate];
@@ -37,7 +40,7 @@ brd.model = (function() {
 	};
 
 	add = function(name, amount, date, type, id) {
-		var monthDate = date.slice(3), month, transaction;
+		var monthDate = getYearMonthFromFormattedDateString(date), month, transaction;
 		month = stateMap.user.months[monthDate];
 
 		if (!month) {
@@ -193,7 +196,7 @@ brd.model = (function() {
 				return month.transactions;
 			}
 		} else if (date.length == configMap.dayFormat.length) {
-			month = stateMap.user.months[date.slice(3)];
+			month = stateMap.user.months[getYearMonthFromFormattedDateString(date)];
 			if (month && month.transactions) {
 				for (tid in month.transactions) {
 					if (month.transactions.hasOwnProperty(tid) && month.transactions[tid].date == date) {
@@ -230,9 +233,12 @@ brd.model = (function() {
 
 		subtract(amount, type, month);
 
-		//stateMap.user.months[month].transactions.splice(index, 1);
 		save(stateMap.user.months[month]);
 
+	};
+
+	getYearMonthFromFormattedDateString = function(date) {
+		return date.slice(0, 7);
 	};
 
 	getStorageFunction = function() {
@@ -264,11 +270,9 @@ brd.model = (function() {
 
 	initModule = function() {
 		stateMap.storage = getStorageFunction();
-		///var user = localStorage.getItem(configMap.anonId);
 		var user = stateMap.storage.getItem(configMap.anonId);
 		if (!user) {
 			user = makeUser();
-			//localStorage.setItem(user.id, JSON.stringify(user));
 			stateMap.storage.setItem(user.id, JSON.stringify(user));
 			stateMap.user = user;
 		} else {

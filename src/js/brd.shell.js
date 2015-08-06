@@ -15,8 +15,9 @@ brd.shell = (function() {
 					'<div class="brd-shell-foot">' +
 						'<div class="brd-shell-main-buttons"></div>' +
 					'</div>',
-		dateFormat: 'DD-MM-YYYY',
-		monthDateFormat: 'MM-YYYY'
+		dateFormat: 'YYYY-MM-DD',
+		dateFormatInput: 'YYYY-MM-DD',
+		monthDateFormat: 'YYYY-MM'
 	},
 	stateMap = {
 		$container: undefined
@@ -55,7 +56,7 @@ brd.shell = (function() {
 				if (transaction) {
 					brd.cal.createEvent(transaction.name, transaction.amount, transactionMoment, transaction.type, transaction.id);
 				}
-				brd.bar.set(totalExpenses, totalIncome, 'update');
+				brd.cal.set(totalExpenses, totalIncome, 'update');
 			} else {
 				brd.cal.showMonth(transactionMoment);
 			}
@@ -66,8 +67,7 @@ brd.shell = (function() {
 			var monthData = brd.model.getMonthData(monthDateString),
 			monthTransactions = brd.model.getMonthTransactions(monthDateString);
 
-			brd.bar.initModule(jqueryMap.$calendar, monthData);
-			brd.cal.recalculate(monthTransactions);
+			brd.cal.recalculate(monthTransactions, monthData);
 		})
 		.on('deletetransaction', function(event, transaction) {
 			var amount = +transaction.amount,
@@ -98,7 +98,7 @@ brd.shell = (function() {
 			brd.form.show('day', {transactions: transactions, date: dateString});
 		})
 		.on('daydbclick', function(event, date) {
-			var dateString = date.format(configMap.dateFormat);
+			var dateString = date.format(configMap.dateFormatInput);
 			brd.form.show('transaction', {date: dateString});
 		});
 	};
@@ -116,9 +116,8 @@ brd.shell = (function() {
 		monthTransactions = brd.model.getMonthTransactions(momentString);
 		salaryData = brd.model.getSalary();
 
-		brd.cal.initModule(jqueryMap.$calendar);
+		brd.cal.initModule(jqueryMap.$calendar, monthData);
 		brd.cal.addEvents(monthTransactions);
-		brd.bar.initModule(jqueryMap.$calendar, monthData);
 		brd.form.initModule(jqueryMap.$form, salaryData);
 		brd.buttons.initModule(jqueryMap.$buttons);
 	};

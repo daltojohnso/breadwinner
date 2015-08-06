@@ -25,14 +25,14 @@ brd.form.transaction = (function() {
 							'<input id="brd-transaction-amt" class="brd-amt" placeholder="Amount">',
 
 							'<label for="brd-transaction-date">Date</label>',
-							'<input id="brd-transaction-date" class="brd-date" placeholder="Date">',
+							'<input id="brd-transaction-date" class="brd-date" placeholder="Date" type="date">',
 
 							'<button type="button" class="brd-button-transaction">Submit</button>',
 						'</fieldset>',
 					'</form>',
 				'</div>'
 		].join(''),
-		dateFormat: 'DD-MM-YYYY',
+		dateFormat: 'YYYY-MM-DD',
 		updateEvent: 'update',
 		newTransactionEvent: 'transaction',
 		validationFailCls: 'brd-validation-fail'
@@ -47,7 +47,7 @@ brd.form.transaction = (function() {
 		tid: undefined
 	},
 	jqueryMap = {},
-	initModule, setJqueryMap, validateAmount,
+	initModule, setJqueryMap,
 	open, close, reset, setListeners;
 	
 	setJqueryMap = function() {
@@ -161,8 +161,7 @@ brd.form.transaction = (function() {
 		setListeners();
 		close();
 
-		rome(document.getElementById('brd-transaction-date'), { time: false, inputFormat: configMap.dateFormat });
-		jqueryMap.$date.val(moment().format(configMap.dateFormat));		
+		jqueryMap.$date.val(moment().format(configMap.dateFormat));
 	};
 	
 	return {
