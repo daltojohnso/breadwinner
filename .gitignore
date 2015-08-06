@@ -3,3 +3,6 @@ node_modules
 spec
 
 .idea
+
+dist
+src/sass

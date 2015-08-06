@@ -3,16 +3,12 @@ brd.model = (function() {
 	var configMap = {
 		isConnected: false,
 		anonId: 'a0',
-		//monthFormat: 'MM-YYYY',
 		monthFormat: 'YYYY-MM',
-		//dayFormat: 'DD-MM-YYYY',
 		dayFormat: 'YYYY-MM-DD'
 	},
 	stateMap = {
 		user: undefined,
 		currentMonth: undefined,
-		//an issue with this is on load, this goes back to 0.
-		tid: 0,
 		storage: undefined
 	},
 	initModule, save,
@@ -92,9 +88,8 @@ brd.model = (function() {
 
 	addTransaction = function(name, amount, date, type, month, id) {
 		var transaction, tid;
-		//month = stateMap.user.months[date];
 
-		tid = id || Date.now();//stateMap.tid++;
+		tid = id || Date.now();
 		transaction  = makeTransaction(tid, name, amount, type, date),
 		month.transactions[transaction.id] = transaction;
 
