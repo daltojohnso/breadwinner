@@ -1,30 +1,7 @@
 brd.form.day = (function() {
 	'use strict';
 	var configMap = {
-		html: [
-			'<div class="brd-form-day-wrapper">',
-				'<h3>June 2, 2015</h3>',
-				'<div class="brd-form-day-transaction-list">',
-
-				'</div>',
-				'<div class="brd-transaction-info">',
-
-				'</div>',
-				'<div class="brd-form-day-buttons">',
-
-				'</div>',
-			'</div>'
-		].join(''),
-		infoHtml: [
-			'<div class="brd-transaction-info-wrapper">',
-				'Name<br>Amount<br>Date',
-			'</div>'
-		].join(''),
-		
-		transactionHtml: {
-
-		},
-			dateFormat: 'YYYY-MM-DD'
+		dateFormat: 'YYYY-MM-DD'
 	},
 	stateMap = {
 		position: 'closed'
@@ -91,7 +68,7 @@ brd.form.day = (function() {
 	//if transaction form is already open, maybe don't open day but just fill date?
 	//add a back button to go back to the transaction list.
 	initModule = function($formTarget) {
-		$formTarget.append(configMap.html);
+		$formTarget.append(brd.templates.day);
 		stateMap.$formTarget = $formTarget;
 		setJqueryMap();
 		setListeners();

@@ -3,11 +3,12 @@
 }
 
 .brd-form {
-	bottom: 93px;
-	right: 18px;
-	width: 330px;
-	height: 470px;
+	bottom: 85px;
+	right: 0;
+	top: 32px;
+	width: 17%;
 	background: #fff;
+	box-sizing: border-box;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #888;
@@ -15,9 +16,9 @@
 	overflow: hidden;
 	opacity: 0;
 
-	-webkit-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
+	/*-webkit-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
 	-moz-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
-	box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
+	box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);*/
 
 }
 

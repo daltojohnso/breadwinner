@@ -1,20 +1,6 @@
 brd.shell = (function() {
 	'use strict';
 	var configMap = {
-		mainHtml:	'<div class="brd-shell-head">' +
-						'<div class="brd-shell-head-logo">' +
-							'<h1>breadWinner</h1>' +
-						'</div>' +
-					'</div>' +
-					'<div class="brd-shell-main">' +
-						'<div class="brd-shell-main-cal-outer">' +
-							'<div class="brd-shell-main-cal"></div>' + 
-						'</div>' +
-						'<div class="brd-shell-main-form"></div>' +
-					'</div>' +
-					'<div class="brd-shell-foot">' +
-						'<div class="brd-shell-main-buttons"></div>' +
-					'</div>',
 		dateFormat: 'YYYY-MM-DD',
 		dateFormatInput: 'YYYY-MM-DD',
 		monthDateFormat: 'YYYY-MM'
@@ -106,7 +92,7 @@ brd.shell = (function() {
 	initModule = function($container) {
 		var monthData, monthTransactions, momentString, salaryData;
 		stateMap.$container = $container;
-		$container.html(configMap.mainHtml);
+		$container.html(brd.templates.shell);
 
 		setJqueryMap();
 		setupListeners();

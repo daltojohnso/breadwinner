@@ -59,7 +59,7 @@ brd.cal = (function() {
 		for (eventId in events) {
 			if (events.hasOwnProperty(eventId)) {
 				event = events[eventId];
-				createEvent(event.name, event.amount, moment(event.date, configMap.dateFormat), event.type, event.id);  //!!!!!!!!!!!!
+				createEvent(event.name, event.amount, moment(event.date, configMap.dateFormat), event.type, event.id);
 			}
 		}
 	};
@@ -104,7 +104,7 @@ brd.cal = (function() {
 		clearTimeout(resizeTimer);
 		stateMap.resizeTimer = setTimeout(function() {
 			var calendar = jqueryMap.$calendar,
-			windowRatio = window.innerWidth / (window.innerHeight - 120);
+			windowRatio = window.innerWidth / (window.innerHeight + 100);
 			calendar.fullCalendar('option', 'aspectRatio', windowRatio);
 		}, 300);
 	};

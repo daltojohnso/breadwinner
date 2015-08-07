@@ -1,21 +1,6 @@
 brd.form = (function() {
 	'use strict';
-	var configMap = {
-		mainHtml: [
-			'<div class="brd-form">',
-				'<div class="brd-form-head">',
-					'<button type="button" class="brd-form-exit">X</button>',
-				'</div>',
-				'<div class="brd-form-target">',
-
-				'</div>',
-				'<div class="brd-form-data">',
-
-				'</div>',
-			'</div>'
-
-		].join('')
-	},
+	var configMap = {},
 	stateMap = {
 		$appendTarget: undefined,
 		formOpen: undefined,
@@ -57,7 +42,7 @@ brd.form = (function() {
 
 	open = function() {
 		jqueryMap.$form.css('display', 'block');
-		jqueryMap.$form.animate({opacity: 1, bottom: '95px'}, 'fast');
+		jqueryMap.$form.animate({opacity: 1, bottom: '85px'}, 'fast');
 		stateMap.formOpen = true;
 	};
 	
@@ -86,7 +71,7 @@ brd.form = (function() {
 	};
 
 	initModule = function($appendTarget, salaryData) {
-		$appendTarget.append(configMap.mainHtml);
+		$appendTarget.append(brd.templates.form);
 		stateMap.$appendTarget = $appendTarget;
 		setJqueryMap();
 		setListeners();
@@ -95,7 +80,8 @@ brd.form = (function() {
 		brd.form.salary.initModule(jqueryMap.$formTarget, salaryData);
 		brd.form.day.initModule(jqueryMap.$formTarget);
 		
-		close();
+		//close();
+		open();
 	};
 
 	return {

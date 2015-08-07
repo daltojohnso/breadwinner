@@ -1,37 +1,6 @@
 brd.form.transaction = (function() {
 	'use strict';
 	var configMap = {
-		html: [
-				'<div class="brd-form-transaction-wrapper">',
-					'<form class="brd-form-transaction" id="brd-form-transaction">',
-						'<fieldset>',
-							'<legend>Create a transaction</legend>',
-
-							'<fieldset class="brd-radio-fieldset">',
-								'<label for="brd-transaction-type-income" class="brd-radio">',
-									'<input id="brd-transaction-type-income" class="brd-transaction-type" type="radio" name="transactionType" value="income">',
-									'Income',
-								'</label>',
-								'<label for="brd-transaction-type-expense" class="brd-radio">',
-									'<input id="brd-transaction-type-expense" class="brd-transaction-type" type="radio" name="transactionType" value="expense" checked>',
-									'Expense',
-								'</label>',
-							'</fieldset>',
-
-							'<label for="brd-transaction-name">Transaction Name</label>',
-							'<input id="brd-transaction-name" placeholder="Transaction Name">',
-
-							'<label for="brd-transaction-amt">Amount</label>',
-							'<input id="brd-transaction-amt" class="brd-amt" placeholder="Amount">',
-
-							'<label for="brd-transaction-date">Date</label>',
-							'<input id="brd-transaction-date" class="brd-date" placeholder="Date" type="date">',
-
-							'<button type="button" class="brd-button-transaction">Submit</button>',
-						'</fieldset>',
-					'</form>',
-				'</div>'
-		].join(''),
 		dateFormat: 'YYYY-MM-DD',
 		updateEvent: 'update',
 		newTransactionEvent: 'transaction',
@@ -155,7 +124,7 @@ brd.form.transaction = (function() {
 	};
 	
 	initModule = function($formTarget) {
-		$formTarget.append(configMap.html);
+		$formTarget.append(brd.templates.transaction);
 		stateMap.$formTarget = $formTarget;
 		setJqueryMap();
 		setListeners();

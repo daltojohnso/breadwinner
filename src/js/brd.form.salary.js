@@ -1,31 +1,6 @@
 brd.form.salary = (function() {
 	'use strict';
-	var configMap = {
-		html: [
-			'<div class="brd-form-salary-wrapper">',
-				'<form class="brd-form-salary">',
-					'<fieldset>',
-						'<legend>Set your salary</legend>',
-
-						'<label for="brd-salary-amt">Amount</label>',
-						'<input id="brd-salary-amt" class="brd-amt" placeholder="Amount">',
-
-						'<label for="brd-salary-options">Type</label>',
-						'<fieldset>',
-							'<select id="brd-salary-options">',
-								'<option>Monthly</option>',
-								'<option>Semi-monthly</option>',
-								'<option>Bi-weekly</option>',
-								'<option>Weekly</option>',
-							'</select>',
-						'</fieldset>',
-
-						'<button type="button" class="brd-button-submit brd-button-salary">Submit</button>',
-					'</fieldset>',
-				'</form>',
-			'</div>'
-		].join('')
-	},
+	var configMap = {},
 	stateMap = {
 		$formTarget: undefined,
 		validSalaryAmount: false,
@@ -107,7 +82,7 @@ brd.form.salary = (function() {
 	};
 
 	initModule = function($formTarget, data) {
-		$formTarget.append(configMap.html);
+		$formTarget.append(brd.templates.salary);
 		stateMap.$formTarget = $formTarget;
 		setJqueryMap();
 		setListeners();

@@ -1,18 +1,6 @@
 brd.buttons = (function() {
 	'use strict';
 	var configMap = {
-		mainHtml: [
-			'<div class="brd-buttons-main">',
-				'<ul>',
-					'<li class="brd-buttons-expense">',
-						'<a href="#" class="brd-link-transaction pure-button">+</a>',
-					'</li>',
-					'<li class="brd-buttons-salary">',	
-						'<a href="#" class="brd-link-salary pure-button">$</a>',
-					'</li>',
-				'</ul>',
-			'</div>'
-		].join('')
 	},
 	stateMap = {
 		$appendTarget: undefined
@@ -31,7 +19,7 @@ brd.buttons = (function() {
 
 	initModule = function($appendTarget) {
 		stateMap.$appendTarget = $appendTarget;
-		$appendTarget.html(configMap.mainHtml);
+		$appendTarget.html(brd.templates.buttons);
 		setJqueryMap();
 
 		jqueryMap.$transactionLink.click(function(event) {
