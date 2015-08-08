@@ -10,12 +10,7 @@
 }
 
 .brd-shell-main-cal {
-	position: absolute;
-	margin-bottom: 10px;
-	top: 34px;
-	width: 90%;
-	left: 5%;
-
+	width: 100%;
 }
 
 /*Allow pointer-events through*/
@@ -63,4 +58,8 @@
 .fc-day-header, .fc-widget-header {
 	color: #FFF;
 	background-color: #888;
+}
+
+.fc-other-month {
+
 }
