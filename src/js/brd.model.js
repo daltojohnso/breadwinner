@@ -61,7 +61,7 @@ brd.model = (function() {
 			addIncome(amount, month);
 		}
 
-		save(month, transaction);
+		save(month, transaction, true);
 		return transaction;
 	};
 
@@ -73,16 +73,17 @@ brd.model = (function() {
 		month.expenses += amount;
 	};
 
-	save = function(month, transaction) {
+	save = function(month, transaction, fireEvent) {
 		//localStorage.setItem(stateMap.user.id, JSON.stringify(stateMap.user));
 		stateMap.storage.setItem(stateMap.user.id, JSON.stringify(stateMap.user));
-		$.event.trigger('modelupdate', [transaction, month.expenses, month.income + month.salary]);
+		if (fireEvent)
+			$.event.trigger('modelupdate', [transaction, month.expenses, month.income + month.salary]);
 	};
 
 	addMonth = function(date, income, expenses, transactions, salary) {
 		var month = makeMonth(date, income, expenses, transactions, salary);
 		stateMap.user.months[month.date] = month;
-		save(month);
+		save(month, undefined, false);
 		return stateMap.user.months[month.date];
 	};
 
@@ -107,7 +108,7 @@ brd.model = (function() {
 		stateMap.user.salaryType = type;
 		var month = stateMap.user.months[date];
 		month.salary = amount;
-		save(month);
+		save(month, undefined, false);
 	};
 
 	//Sets salary for current month going forward.
@@ -171,7 +172,12 @@ brd.model = (function() {
 		endOfMonth = moment('01-' + date, 'DD-MM-YYYY').endOf('month').date();
 
 		if (!month) {
-			month = addMonth(date);
+			return {
+				date: date,
+				endOfMonth: endOfMonth,
+				expenses: 0,
+				income: getSalary().salary
+			}
 		}
 
 		return {
@@ -228,7 +234,7 @@ brd.model = (function() {
 
 		subtract(amount, type, month);
 
-		save(stateMap.user.months[month]);
+		save(stateMap.user.months[month], undefined, true);
 
 	};
 

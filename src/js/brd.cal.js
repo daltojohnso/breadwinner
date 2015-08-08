@@ -74,7 +74,7 @@ brd.cal = (function() {
 
 	showMonth = function(date) {
 		jqueryMap.$calendar.fullCalendar('gotoDate', date);
-		$.event.trigger('calendarchange', [date.format('MM-YYYY')]);
+		$.event.trigger('calendarchange', [date.format('YYYY-MM')]);
 	};
 
 	setListeners = function() {
