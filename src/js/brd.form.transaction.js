@@ -82,7 +82,6 @@ brd.form.transaction = (function() {
 				&& name.length <= 20) {
 				$.event.trigger('transaction', [name, amount, date, stateMap.radioValue, id]);
 				reset();
-				close();
 				return true;
 			}
 			return false;

@@ -2,20 +2,20 @@ brd.templates = (function() {
     'use strict';
     var buttons, form, day, dayLine, transaction, salary, shell;
     shell = [
-        '<div class="brd-shell-head">',
-            '<div class="brd-shell-head-logo">',
+        '<div class="brd-top">',
+            '<div class="brd-top-logo">',
                 '<h1>breadWinner</h1>',
             '</div>',
         '</div>',
-        '<div class="brd-shell-main">',
-            '<div class="brd-shell-main-cal-outer">',
+        '<div class="brd-left">',
+            '<div class="brd-shell-main">',
                 '<div class="brd-shell-main-cal"></div>',
             '</div>',
-            '<div class="brd-shell-main-form"></div>',
         '</div>',
-        '<div class="brd-shell-foot">',
-            '<div class="brd-shell-main-buttons"></div>',
-        '</div>'
+        '<div class="brd-right">',
+            '<div class="brd-form"></div>',
+            '<div class="brd-buttons"></div>',
+        '</div>',
     ].join('\n');
 
     buttons = [
@@ -34,7 +34,7 @@ brd.templates = (function() {
     form =  [
         '<div class="brd-form">',
             '<div class="brd-form-head">',
-            '<button type="button" class="brd-form-exit">X</button>',
+            //'<button type="button" class="brd-form-exit">X</button>',
             '</div>',
             '<div class="brd-form-target"></div>',
             '<div class="brd-form-data"></div>',

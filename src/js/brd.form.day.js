@@ -29,7 +29,6 @@ brd.form.day = (function() {
 
 	open = function(data) {
 		clearTransactions();
-		//var dateString = moment(data.date, 'DD-MM-YYYY').format('MMMM Do, YYYY');
 		var dateString = moment(data.date, configMap.dateFormat).format('MMMM Do, YYYY');
 		jqueryMap.$title.html(dateString);
 		jqueryMap.$wrapper.show();
@@ -65,7 +64,6 @@ brd.form.day = (function() {
 		}
 	};
 
-	//if transaction form is already open, maybe don't open day but just fill date?
 	//add a back button to go back to the transaction list.
 	initModule = function($formTarget) {
 		$formTarget.append(brd.templates.day);

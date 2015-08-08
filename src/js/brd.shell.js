@@ -16,8 +16,8 @@ brd.shell = (function() {
 		jqueryMap = {
 			$container: $container,
 			$calendar: $container.find('.brd-shell-main-cal'),
-			$form: $container.find('.brd-shell-main-form'),
-			$buttons: $container.find('.brd-shell-main-buttons')
+			$form: $container.find('.brd-form'),
+			$buttons: $container.find('.brd-buttons')
 		};
 	};
 

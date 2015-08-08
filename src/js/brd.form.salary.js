@@ -9,7 +9,7 @@ brd.form.salary = (function() {
 		position: undefined
 	},
 	jqueryMap, setJqueryMap, initModule, setListeners,
-	open, close, load, convertToMonthlySalary;
+	open, close, convertToMonthlySalary;
 
 	setJqueryMap = function() {
 		var $formTarget = stateMap.$formTarget;
@@ -38,7 +38,7 @@ brd.form.salary = (function() {
 			salaryType = stateMap.salaryType, newMonthlyIncome;
 			if (amount && !isNaN(amount)) {
 				newMonthlyIncome = convertToMonthlySalary(amount, salaryType);
-				jqueryMap.$wrapper.hide();
+				//jqueryMap.$wrapper.hide();
 				stateMap.salary = amount;
 				stateMap.salaryType = salaryType;
 

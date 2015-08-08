@@ -1,20 +1,19 @@
-.brd-form, .brd-form-head, .brd-form-target {
+.brd-form-head, .brd-form-target {
 	position: absolute;
 }
 
 .brd-form {
 	bottom: 85px;
 	right: 0;
-	top: 32px;
-	width: 17%;
 	background: #fff;
 	box-sizing: border-box;
+	width: 100%;
+	top: 0;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #888;
+
 	z-index: 1;
-	overflow: hidden;
-	opacity: 0;
 
 	/*-webkit-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);
 	-moz-box-shadow: 4px 7px 14px -1px rgba(0,0,0,0.6);

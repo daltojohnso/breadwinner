@@ -26,10 +26,10 @@ brd.form = (function() {
 		});
 
 		$(document).on('transaction', function(event) {
-			close();
+			//close();
 		})
 		.on('newsalary', function(event) {
-			close();
+			//close();
 		});
 
 	};
@@ -79,9 +79,8 @@ brd.form = (function() {
 		brd.form.transaction.initModule(jqueryMap.$formTarget);
 		brd.form.salary.initModule(jqueryMap.$formTarget, salaryData);
 		brd.form.day.initModule(jqueryMap.$formTarget);
-		
-		//close();
-		open();
+
+		$.event.trigger('dayclick', [moment()]);
 	};
 
 	return {
