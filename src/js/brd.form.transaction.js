@@ -69,6 +69,7 @@ brd.form.transaction = (function() {
 		jqueryMap.$date.val(moment().format(configMap.dateFormat));
 		jqueryMap.$radio.last().prop('checked', true);
 		stateMap.radioValue = 'expense';
+		stateMap.tid = undefined;
 	};
 
 	setListeners = function() {
