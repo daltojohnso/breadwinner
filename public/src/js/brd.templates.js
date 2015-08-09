@@ -32,10 +32,7 @@ brd.templates = (function() {
     ].join('\n');
 
     form =  [
-        '<div class="brd-form">',
-            '<div class="brd-form-head">',
-            //'<button type="button" class="brd-form-exit">X</button>',
-            '</div>',
+        '<div class="brd-form-inner">',
             '<div class="brd-form-target"></div>',
             '<div class="brd-form-data"></div>',
         '</div>'

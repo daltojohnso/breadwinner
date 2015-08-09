@@ -57,10 +57,9 @@ brd.form.transaction = (function() {
 	close = function() {
 		jqueryMap.$wrapper.hide();
 		stateMap.position = 'closed';
-		jqueryMap.$name.val('');
-		jqueryMap.$amount.val('');
-		jqueryMap.$date.val(moment().format(configMap.dateFormat));
 		stateMap.update = false;
+
+		reset();
 	};
 
 	reset = function() {

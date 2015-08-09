@@ -1,0 +1,11 @@
+.brd-form-target {
+	top: 40px;
+	left: 1%;
+	right: 1%;
+	bottom: 1%;
+}
+
+.brd-form legend {
+	font-size: 22px;
+	margin-bottom: 0;
+}
