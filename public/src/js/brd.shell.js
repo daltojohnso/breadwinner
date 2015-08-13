@@ -90,7 +90,7 @@ brd.shell = (function() {
 		});
 	};
 	
-	initModule = function($container) {
+	initModule = function($container, name) {
 		var monthData, monthTransactions, momentString, salaryData;
 		stateMap.$container = $container;
 		$container.html(brd.templates.shell);
@@ -108,6 +108,9 @@ brd.shell = (function() {
 		brd.form.initModule(jqueryMap.$form, salaryData);
 		brd.buttons.initModule(jqueryMap.$buttons);
 		brd.login.initModule(jqueryMap.$login);
+
+		brd.login.login(name);
+
 	};
 	
 	return {initModule: initModule};

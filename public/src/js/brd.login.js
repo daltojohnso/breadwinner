@@ -44,6 +44,7 @@ brd.login = (function() {
     };
 
     login = function(name) {
+        if (!name) return false;
         jqueryMap.$link.hide();
         jqueryMap.$p.show().text(config.text({user: name}));
     };
