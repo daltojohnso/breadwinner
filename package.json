@@ -4,7 +4,8 @@
   "description": "breadWinner is an ongoing project to make it easier to track spending.",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "mongodb": "^2.0.40"
   },
   "devDependencies": {
     "gulp": "^3.9.0",

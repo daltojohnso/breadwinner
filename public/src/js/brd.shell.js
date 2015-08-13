@@ -17,7 +17,8 @@ brd.shell = (function() {
 			$container: $container,
 			$calendar: $container.find('.brd-shell-main-cal'),
 			$form: $container.find('.brd-form'),
-			$buttons: $container.find('.brd-buttons')
+			$buttons: $container.find('.brd-buttons'),
+			$login: $container.find('.brd-login')
 		};
 	};
 
@@ -106,6 +107,7 @@ brd.shell = (function() {
 		brd.cal.addEvents(monthTransactions);
 		brd.form.initModule(jqueryMap.$form, salaryData);
 		brd.buttons.initModule(jqueryMap.$buttons);
+		brd.login.initModule(jqueryMap.$login);
 	};
 	
 	return {initModule: initModule};

@@ -6,6 +6,7 @@ brd.templates = (function() {
             '<div class="brd-top-logo">',
                 '<h1>breadWinner</h1>',
             '</div>',
+            '<div class="brd-login"></div>',
         '</div>',
         '<div class="brd-left">',
             '<div class="brd-shell-main">',
