@@ -13,6 +13,11 @@ var app = module.exports = express(),
 
 
 
+var mongo = require('mongodb'),
+    monk = require('monk'),
+    db = monk('127.0.0.1:27017/brd'),
+    users = db.get('users');
+
 
 // serialize and deserialize
 passport.serializeUser(function(user, done) {
@@ -57,6 +62,11 @@ app.use(express.static(__dirname + '/public'));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next) {
+    req.db = db;
+    next();
+});
+
 
 app.get('/auth/google',
     passport.authenticate('google', { scope: 'openid' }));
@@ -65,9 +75,27 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
         // Successful authentication, redirect home.
-        console.log('!!!!!!!!!!!!!!success!!!!!!!!!!!!!!!');
-        console.log(req.user);
-        res.redirect('/');
+        console.log(req.user.id);
+        users.findOne({id: req.user.id}, function(err, doc) {
+            console.log(doc);
+            if (err) {
+                console.log('Something happened.........');
+            }
+            if (!doc) {
+                users.insert({
+                    'id': req.user.id,
+                    'name': req.user.displayName,
+                    'months': {},
+                    'salary': 0,
+                    'salaryType': 'monthly'
+                }, function(err, doc) {
+                    if (err) res.send('Error adding user to db');
+                    else res.redirect('/');
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
     }
 );
 
@@ -78,7 +106,6 @@ app.get('/auth/google/callback',
 
 app.get('/user', function(req, res) {
     if (req.user) {
-        console.log(req.user);
         res.send({user: req.user.displayName});
     } else {
         res.send({user: undefined});
