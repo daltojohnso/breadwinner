@@ -4,8 +4,8 @@ var brd = (function() {
 		$.get('/user', function(data) {
 			var name;
 			if (data.user) name = data.user;
-
-			brd.model.initModule();
+			//currently using local model until db is finished.
+			brd.model.initModule(false);
 			brd.shell.initModule($container, name);
 
 		});
