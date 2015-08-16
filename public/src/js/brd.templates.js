@@ -33,18 +33,15 @@ brd.templates = (function() {
     ].join('\n');
 
     form =  [
-        '<div class="brd-form-inner">',
-            '<div class="brd-form-target"></div>',
-            '<div class="brd-form-data"></div>',
-        '</div>'
+        '<div class="brd-form-target"></div>'
     ].join('\n');
 
     day = [
         '<div class="brd-form-day-wrapper">',
-            '<h3>June 2, 2015</h3>',
+            '<div class="brd-form-day-header">',
+                '<h3></h3>',
+            '</div>',
             '<div class="brd-form-day-transaction-list"></div>',
-            '<div class="brd-transaction-info"></div>',
-            '<div class="brd-form-day-buttons"></div>',
         '</div>'
     ].join('\n');
 

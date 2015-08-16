@@ -29,8 +29,12 @@ brd.form.day = (function() {
 
 	open = function(data) {
 		clearTransactions();
-		var dateString = moment(data.date, configMap.dateFormat).format('MMMM Do, YYYY');
-		jqueryMap.$title.html(dateString);
+
+		if (data.date) {
+			var dateString = moment(data.date, configMap.dateFormat).format('MMMM Do, YYYY');
+			jqueryMap.$title.html(dateString);
+		}
+
 		jqueryMap.$wrapper.show();
 		stateMap.position = 'open';
 		if (data && data.transactions) {

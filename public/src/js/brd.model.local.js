@@ -189,6 +189,7 @@ brd.model.local = (function() {
 	};
 
 	//kinda horrible right now...
+	//issue is that it returns {} or [] depending on date.
 	getMonthTransactions = function(date) {
 		var month, transactions = [], tid;
 		if (date.length == configMap.monthFormat.length) {

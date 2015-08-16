@@ -24,7 +24,8 @@ brd.cal = (function() {
 			$todayButton: $calendar.find('.fc-today-button'),
 			$prevButton: $calendar.find('.fc-prev-button'),
 			$nextButton: $calendar.find('.fc-next-button'),
-			$buttons: $calendar.find('.fc-button')
+			$buttons: $calendar.find('.fc-button'),
+			$month: $calendar.find('.fc-left h2')
 		}
 	};
 
@@ -94,6 +95,11 @@ brd.cal = (function() {
 		})
 		.on('dbclick', function(e) {
 			e.preventDefault();
+		});
+
+		jqueryMap.$month.click(function() {
+			var date = stateMap.$calendar.fullCalendar('getDate').format('YYYY-MM');
+			$.event.trigger('monthclick', [date]);
 		});
 
 		$(window).resize(resizeCalendar);
