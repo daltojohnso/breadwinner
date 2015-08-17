@@ -9,8 +9,14 @@ html, body, #brd {
 	background-color: #87A5D1;
 }
 
-.brd-top h1 {
-	margin-top: 0;
+.brd-top-logo {
+	height: inherit;
+}
+
+.brd-top-logo h1 {
+	line-height: 50px;
+	margin: 0px 0px 0px 8px;
+	float: left;
 }
 
 .brd-shell-main {

@@ -183,8 +183,8 @@ brd.model.local = (function() {
 		return {
 			date: month.date,
 			endOfMonth: endOfMonth,
-			expenses: month.expenses,
-			income: month.income + month.salary
+			numerator: month.expenses,
+			denominator: month.income + month.salary
 		};
 	};
 

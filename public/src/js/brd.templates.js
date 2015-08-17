@@ -4,7 +4,7 @@ brd.templates = (function() {
     shell = [
         '<div class="brd-top">',
             '<div class="brd-top-logo">',
-                '<h1>breadWinner</h1>',
+                '<h1>breadwinner</h1>',
             '</div>',
             '<div class="brd-login"></div>',
         '</div>',

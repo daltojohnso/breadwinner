@@ -1,3 +1,12 @@
-/**
- * Created by Dalton on 8/5/2015.
- */
+brd.date = (function() {
+
+    var format = {
+        ymd: 'YYYY-MM-DD',
+        ym: 'YYYY-MM'
+    };
+
+    return {
+        format: format
+    }
+
+}());

@@ -63,3 +63,24 @@
 .fc-other-month {
 
 }
+
+.fc-event-container {
+
+}
+
+.fc-event-container a {
+	width: 18% !important;
+}
+
+.fc-event-container .fc-content {
+	padding: 5px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.fc-event-container .fc-content .fc-title {
+	vertical-align: middle;
+}
+
+

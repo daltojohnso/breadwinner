@@ -1,23 +1,24 @@
 brd.cal = (function() {
 	'use strict';
-	var configMap = {
-		dateFormat: 'YYYY-MM-DD',
+	var config = {
 		dayClickTimer: 200,
 		eventBackgroundColor: '#FF3333'
-	},
-	stateMap = {
-		$calendar: undefined,
-		calendarRatio: undefined,
-		windowHeight: undefined,
-		dayClicks: 0,
-		dayClickTimer: undefined
-	},
-	jqueryMap = {},
-	setJqueryMap, initModule, createEvent, getDate, getDaysInMonth, setCalendarWidth,
-	setListeners, showMonth, deleteEvent, addEvents, resizeCalendar, recalculate, set;
+		},
+		state = {
+			$calendar: undefined,
+			calendarRatio: undefined,
+			windowHeight: undefined,
+			dayClicks: 0,
+			dayClickTimer: undefined
+		},
+		jqueryMap, setJqueryMap, setListeners, initModule, resize,
+		setListeners, setExpiringListeners, setStaticListeners,
+		getDate, showMonth,
+		createEvent, addEvents,
+		recalculate, set;
 	
 	setJqueryMap = function() {
-		var $calendar = stateMap.$calendar;
+		var $calendar = state.$calendar;
 		jqueryMap = {
 			$calendar: $calendar,
 			$day: $calendar.find('.fc-day'),
@@ -26,32 +27,40 @@ brd.cal = (function() {
 			$nextButton: $calendar.find('.fc-next-button'),
 			$buttons: $calendar.find('.fc-button'),
 			$month: $calendar.find('.fc-left h2')
-		}
+		};
 	};
 
+	getDate = function() {
+		return jqueryMap.$calendar.fullCalendar('getDate');
+	};
+
+	showMonth = function(date) {
+		jqueryMap.$calendar.fullCalendar('gotoDate', date);
+		$.event.trigger('calendarchange', [date.format(brd.date.format.ym)]);
+	};
 
 	createEvent = function(name, amount, date, type, id) {
 		var newEvent,
-		dateEvents = stateMap.$calendar.fullCalendar('clientEvents', date.format(configMap.dateFormat));
+		dateEvents = state.$calendar.fullCalendar('clientEvents', date.format(brd.date.format.ymd));
 
-		if (dateEvents.length) {
+		if (dateEvents[0]) {
 			var dateEvent = dateEvents[0];
 			if (!dateEvent[id]) {
 				dateEvent.count++;
 				dateEvent.title = dateEvent.count+'';
 				dateEvent[id] = true;
-				stateMap.$calendar.fullCalendar('updateEvent', dateEvent);
+				state.$calendar.fullCalendar('updateEvent', dateEvent);
 			}
 		} else {
 			newEvent = {
 				title: '1',
 				count: 1,
 				start: date,
-				backgroundColor: configMap.eventBackgroundColor,
-				id: date.format(configMap.dateFormat)
+				backgroundColor: config.eventBackgroundColor,
+				id: date.format(brd.date.format.ymd)
 			};
 			newEvent[id] = true;
-			stateMap.$calendar.fullCalendar('renderEvent', newEvent);
+			state.$calendar.fullCalendar('renderEvent', newEvent);
 		}
 	};
 
@@ -60,57 +69,17 @@ brd.cal = (function() {
 		for (eventId in events) {
 			if (events.hasOwnProperty(eventId)) {
 				event = events[eventId];
-				createEvent(event.name, event.amount, moment(event.date, configMap.dateFormat), event.type, event.id);
+				createEvent(event.name, event.amount, moment(event.date, brd.date.format.ymd), event.type, event.id);
 			}
 		}
 	};
 
-	getDate = function() {
-		return jqueryMap.$calendar.fullCalendar('getDate');
-	};
-
-	getDaysInMonth = function() {
-		return getDate().clone().endOf('month').date();
-	};
-
-	showMonth = function(date) {
-		jqueryMap.$calendar.fullCalendar('gotoDate', date);
-		$.event.trigger('calendarchange', [date.format('YYYY-MM')]);
-	};
-
-	setListeners = function() {
-		jqueryMap.$day.on('click', function(e) {
-			stateMap.dayClicks++;
-			var date = moment($(this).data().date);
-			if (stateMap.dayClicks === 1) {
-				stateMap.dayClickTimer = setTimeout(function() {
-					$.event.trigger('dayclick', [date]);
-					stateMap.dayClicks = 0;
-				}, configMap.dayClickTimer);
-			} else {
-				clearTimeout(stateMap.dayClickTimer);
-				$.event.trigger('daydbclick', [date]);
-				stateMap.dayClicks = 0;
-			}
-		})
-		.on('dbclick', function(e) {
-			e.preventDefault();
-		});
-
-		jqueryMap.$month.click(function() {
-			var date = stateMap.$calendar.fullCalendar('getDate').format('YYYY-MM');
-			$.event.trigger('monthclick', [date]);
-		});
-
-		$(window).resize(resizeCalendar);
-	};
-
-	resizeCalendar = function() {
-		var resizeTimer = stateMap.resizeTimer;
+	resize = function() {
+		var resizeTimer = state.resizeTimer;
 		clearTimeout(resizeTimer);
-		stateMap.resizeTimer = setTimeout(function() {
+		state.resizeTimer = setTimeout(function() {
 			var calendar = jqueryMap.$calendar,
-			windowRatio = window.innerWidth / (window.innerHeight + 100);
+				windowRatio = window.innerWidth / (window.innerHeight + 100);
 			calendar.fullCalendar('option', 'aspectRatio', windowRatio);
 		}, 300);
 	};
@@ -122,20 +91,61 @@ brd.cal = (function() {
 
 		addEvents(events);
 		setJqueryMap();
-		setListeners();
+		setExpiringListeners();
 	};
 
 	set = function() {
 		brd.cal.bar.set.apply(null, arguments);
 	};
 
-	initModule = function($calendar, monthData) {
-		stateMap.$calendar = $calendar;
+	setListeners = function() {
+		setExpiringListeners();
+		setStaticListeners();
+	};
+
+	setExpiringListeners = function() {
+		jqueryMap.$day
+			.on('click', function() {
+				state.dayClicks++;
+				var date = moment($(this).data().date);
+				if (state.dayClicks === 1) {
+					state.dayClickTimer = setTimeout(function() {
+						$.event.trigger('dayclick', [date]);
+						state.dayClicks = 0;
+					}, config.dayClickTimer);
+				} else {
+					clearTimeout(state.dayClickTimer);
+					$.event.trigger('daydbclick', [date]);
+					state.dayClicks = 0;
+				}
+			})
+			.on('dbclick', function(e) {
+				e.preventDefault();
+			});
+
+		jqueryMap.$month
+			.click(function() {
+				var date = state.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
+				$.event.trigger('monthclick', [date]);
+			});
+
+		$(window).resize(resize);
+	};
+
+	setStaticListeners = function() {
+		jqueryMap.$buttons.click(function() {
+			var date = jqueryMap.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
+			$.event.trigger('calendarchange', [date]);
+		});
+	};
+
+	initModule = function($calendar, barData) {
+		state.$calendar = $calendar;
 
 		$calendar.fullCalendar({
 			eventRender: function(thisEvent, element) {
 				element.find('.brd-event-close').click(function() {
-					stateMap.$calendar.fullCalendar('removeEvents', thisEvent._id);
+					state.$calendar.fullCalendar('removeEvents', thisEvent._id);
 					$.event.trigger('deletetransaction', [thisEvent])
 				});
 			},
@@ -147,23 +157,16 @@ brd.cal = (function() {
 			}
 		});
 		setJqueryMap();
-
-		//this event doesn't need to be reset on month change, so keeping it here for now.
-		jqueryMap.$buttons.click(function(event) {
-			var date = jqueryMap.$calendar.fullCalendar('getDate').format('YYYY-MM');
-			$.event.trigger('calendarchange', [date]);
-		});
 		setListeners();
-		resizeCalendar();
+		resize();
 
-		brd.cal.bar.initModule(jqueryMap.$calendar, monthData);
+		brd.cal.bar.initModule(jqueryMap.$calendar, barData);
 	};
 	
 	return {
 		initModule: initModule,
 		createEvent: createEvent,
 		getDate: getDate,
-		getDaysInMonth: getDaysInMonth,
 		showMonth: showMonth,
 		addEvents: addEvents,
 		recalculate: recalculate,
