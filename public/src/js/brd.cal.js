@@ -124,18 +124,22 @@ brd.cal = (function() {
 			});
 
 		jqueryMap.$month
-			.click(function() {
-				var date = state.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
-				$.event.trigger('monthclick', [date]);
+			.click(function(e) {
+				//var date = state.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
+				//$.event.trigger('monthclick', [date]);
 			});
 
 		$(window).resize(resize);
 	};
 
 	setStaticListeners = function() {
-		jqueryMap.$buttons.click(function() {
-			var date = jqueryMap.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
-			$.event.trigger('calendarchange', [date]);
+		jqueryMap.$buttons.click(function(e) {
+			if (!brd.cal.bar.moving()) {
+				var date = jqueryMap.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
+				$.event.trigger('calendarchange', [date]);
+			} else {
+				//plz wait plz!
+			}
 		});
 	};
 

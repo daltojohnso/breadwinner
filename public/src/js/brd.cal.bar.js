@@ -22,7 +22,11 @@ brd.cal.bar = (function() {
 	},
 	initModule,
 	updateBar, getNextDiv, getPrevDiv, fillCurrentDiv,
-	convertDateValueToString, buildDateStrings, initializeBar, loadInitialData, clearState, set;
+	convertDateValueToString, buildDateStrings, initializeBar, loadInitialData, clearState, set, moving;
+
+	moving = function() {
+		return state.bar.timeoutIds.length === 0 ? false : true;
+	};
 
 	set = function(numerator, denominator, type) {
 		state.numerator = numerator;
@@ -105,15 +109,20 @@ brd.cal.bar = (function() {
 				leftoverPercent = newPercent - 100;
 				currentBar = getNextDiv();
 				if (currentBar) {
-					setTimeout(function() { fillCurrentDiv(leftoverPercent, barSpeed); }, barSpeed);
+					state.bar.timeoutIds.push(setTimeout(function() { fillCurrentDiv(leftoverPercent, barSpeed); }, barSpeed));
 				}
 			} else {
 				currentBar.animate({width: 0}, barSpeed, 'linear');
 				currentBar = getPrevDiv();
 				if (currentBar) {
-					setTimeout(function() { fillCurrentDiv(newPercent, barSpeed); }, barSpeed);
+					state.bar.timeoutIds.push(setTimeout(function() { fillCurrentDiv(newPercent, barSpeed); }, barSpeed));
 				}
 			}
+			setTimeout(function() {
+				state.bar.timeoutIds.pop()
+				if (state.bar.timeoutIds.length)
+					$.trigger('brd-bar-stopped');
+			}, barSpeed * 2);
 		}
 	};
 	
@@ -169,7 +178,8 @@ brd.cal.bar = (function() {
 
 	return {
 		initModule: initModule,
-		set: set
+		set: set,
+		moving: moving
 	};
 
 }());

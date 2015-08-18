@@ -8189,14 +8189,18 @@ function Calendar_constructor(element, overrides) {
 	
 	
 	function prev() {
-		date = currentView.computePrevDate(date);
-		renderView();
+		if (!brd.cal.bar.moving()) {
+			date = currentView.computePrevDate(date);
+			renderView();
+		}
 	}
 	
 	
 	function next() {
-		date = currentView.computeNextDate(date);
-		renderView();
+		if (!brd.cal.bar.moving()) {
+			date = currentView.computeNextDate(date);
+			renderView();
+		}
 	}
 	
 	
@@ -8213,8 +8217,10 @@ function Calendar_constructor(element, overrides) {
 	
 	
 	function today() {
-		date = t.getNow();
-		renderView();
+		if (!brd.cal.bar.moving()) {
+			date = t.getNow();
+			renderView();
+		}
 	}
 	
 	
