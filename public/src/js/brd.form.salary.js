@@ -1,7 +1,6 @@
 brd.form.salary = (function() {
 	'use strict';
-	var configMap = {},
-	stateMap = {
+	var state = {
 		$formTarget: undefined,
 		validSalaryAmount: false,
 		salary: undefined,
@@ -12,7 +11,7 @@ brd.form.salary = (function() {
 	open, close, convertToMonthlySalary;
 
 	setJqueryMap = function() {
-		var $formTarget = stateMap.$formTarget;
+		var $formTarget = state.$formTarget;
 		jqueryMap = {
 			$formTarget: $formTarget,
 			$wrapper: $formTarget.find('.brd-form-salary-wrapper'),
@@ -35,12 +34,12 @@ brd.form.salary = (function() {
 
 		jqueryMap.$submit.click(function(){
 			var amount = +jqueryMap.$amount.val(),
-			salaryType = stateMap.salaryType, newMonthlyIncome;
+			salaryType = state.salaryType, newMonthlyIncome;
 			if (amount && !isNaN(amount)) {
 				newMonthlyIncome = convertToMonthlySalary(amount, salaryType);
 				//jqueryMap.$wrapper.hide();
-				stateMap.salary = amount;
-				stateMap.salaryType = salaryType;
+				state.salary = amount;
+				state.salaryType = salaryType;
 
 				$.event.trigger(brd.event.salaryUpdate, [newMonthlyIncome, salaryType]);
 				return true;
@@ -51,7 +50,7 @@ brd.form.salary = (function() {
 		jqueryMap.$options.change(function() {
 			var $form = $(this), type;
 			type = $form.val();
-			stateMap.salaryType = type;
+			state.salaryType = type;
 		});
 	};
 
@@ -69,27 +68,27 @@ brd.form.salary = (function() {
 
 	open = function() {
 		jqueryMap.$wrapper.show();
-		stateMap.position = 'open';
+		state.position = 'open';
 
-		jqueryMap.$amount.val(stateMap.salary);
-		jqueryMap.$options.val(stateMap.salaryType);
+		jqueryMap.$amount.val(state.salary);
+		jqueryMap.$options.val(state.salaryType);
 
 	};
 
 	close = function() {
 		jqueryMap.$wrapper.hide();
-		stateMap.position = 'closed';
+		state.position = 'closed';
 	};
 
 	initModule = function($formTarget, data) {
 		$formTarget.append(brd.templates.salary);
-		stateMap.$formTarget = $formTarget;
+		state.$formTarget = $formTarget;
 		setJqueryMap();
 		setListeners();
 		close();
 
-		stateMap.salary = data.salary;
-		stateMap.salaryType = data.salaryType;
+		state.salary = data.salary;
+		state.salaryType = data.salaryType;
 	};
 
 	return {

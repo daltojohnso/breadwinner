@@ -1,12 +1,12 @@
 brd.model.local = (function() {
 	'use strict';
-	var configMap = {
+	var config = {
 		isConnected: false,
 		anonId: 'a0',
 		monthFormat: 'YYYY-MM',
 		dayFormat: 'YYYY-MM-DD'
 	},
-	stateMap = {
+	state = {
 		user: undefined,
 		currentMonth: undefined,
 		storage: undefined
@@ -19,7 +19,7 @@ brd.model.local = (function() {
 		getYearMonthFromFormattedDateString;
 
 	subtract = function(amount, type, monthDate) {
-		var month = stateMap.user.months[monthDate];
+		var month = state.user.months[monthDate];
 		if (type === 'expense') {
 			subtractExpense(Math.abs(amount), month);
 		} else if (type === 'income') {
@@ -37,14 +37,14 @@ brd.model.local = (function() {
 
 	add = function(name, amount, date, type, id) {
 		var monthDate = getYearMonthFromFormattedDateString(date), month, transaction;
-		month = stateMap.user.months[monthDate];
+		month = state.user.months[monthDate];
 
 		if (!month) {
 			month = addMonth(monthDate);
 		}
 
 		if (id) {
-			var transactions = stateMap.user.months[month.date].transactions;
+			var transactions = state.user.months[month.date].transactions;
 			for (var tid in transactions) {
 				if (transactions.hasOwnProperty(tid) && transactions[tid].id == id) {
 					subtract(transactions[tid].amount, transactions[tid].type, month.date);
@@ -74,17 +74,17 @@ brd.model.local = (function() {
 	};
 
 	save = function(month, transaction, fireEvent) {
-		//localStorage.setItem(stateMap.user.id, JSON.stringify(stateMap.user));
-		stateMap.storage.setItem(stateMap.user.id, JSON.stringify(stateMap.user));
+		//localStorage.setItem(state.user.id, JSON.stringify(state.user));
+		state.storage.setItem(state.user.id, JSON.stringify(state.user));
 		if (fireEvent)
 			$.event.trigger(brd.event.modelUpdate, [transaction, month.expenses, month.income + month.salary]);
 	};
 
 	addMonth = function(date, income, expenses, transactions, salary) {
 		var month = makeMonth(date, income, expenses, transactions, salary);
-		stateMap.user.months[month.date] = month;
+		state.user.months[month.date] = month;
 		save(month, undefined, false);
-		return stateMap.user.months[month.date];
+		return state.user.months[month.date];
 	};
 
 	addTransaction = function(name, amount, date, type, month, id) {
@@ -104,9 +104,9 @@ brd.model.local = (function() {
 	};
 
 	setSalary = function(amount, type, date) {
-		stateMap.user.salary = amount;
-		stateMap.user.salaryType = type;
-		var month = stateMap.user.months[date];
+		state.user.salary = amount;
+		state.user.salaryType = type;
+		var month = state.user.months[date];
 		month.salary = amount;
 		save(month, undefined, false);
 	};
@@ -115,8 +115,8 @@ brd.model.local = (function() {
 	//Will need to wait til next month to change salary if it changes.
 	getSalary = function() {
 		return {
-			salary: stateMap.user.salary,
-			salaryType: stateMap.user.salaryType
+			salary: state.user.salary,
+			salaryType: state.user.salaryType
 		};
 	};
 
@@ -124,8 +124,8 @@ brd.model.local = (function() {
 		var userSalary;
 		if (!date) return false;
 
-		if (stateMap.user && stateMap.user.salary) {
-			userSalary = stateMap.user.salary;
+		if (state.user && state.user.salary) {
+			userSalary = state.user.salary;
 		}
 
 		return {
@@ -149,13 +149,13 @@ brd.model.local = (function() {
 	}
 
 	makeUser = function() {
-		var date = moment().format(configMap.monthFormat),
+		var date = moment().format(config.monthFormat),
 		months = {}, month, user;
 		month = makeMonth(date);
 		months[month.date] = month;
 
 		user = {
-			id: configMap.anonId,
+			id: config.anonId,
 			months: months,
 			salary: 0,
 			salaryType: 'Monthly'
@@ -166,7 +166,7 @@ brd.model.local = (function() {
 	};
 
 	getMonthData = function(date) {
-		var month = stateMap.user.months[date],
+		var month = state.user.months[date],
 		endOfMonth;
 		//could be better...
 		endOfMonth = moment('01-' + date, 'DD-MM-YYYY').endOf('month').date();
@@ -192,13 +192,13 @@ brd.model.local = (function() {
 	//issue is that it returns {} or [] depending on date.
 	getMonthTransactions = function(date) {
 		var month, transactions = [], tid;
-		if (date.length == configMap.monthFormat.length) {
-			month = stateMap.user.months[date];
+		if (date.length == config.monthFormat.length) {
+			month = state.user.months[date];
 			if (month && month.transactions) {
 				return month.transactions;
 			}
-		} else if (date.length == configMap.dayFormat.length) {
-			month = stateMap.user.months[getYearMonthFromFormattedDateString(date)];
+		} else if (date.length == config.dayFormat.length) {
+			month = state.user.months[getYearMonthFromFormattedDateString(date)];
 			if (month && month.transactions) {
 				for (tid in month.transactions) {
 					if (month.transactions.hasOwnProperty(tid) && month.transactions[tid].date == date) {
@@ -215,8 +215,8 @@ brd.model.local = (function() {
 
 	getTransaction = function(id) {
 		var month;
-		for (var date in stateMap.user.months) {
-			month = stateMap.user.months[date];
+		for (var date in state.user.months) {
+			month = state.user.months[date];
 			if (month.transactions.hasOwnProperty(id)) {
 				return month.transactions[id];
 			}
@@ -225,7 +225,7 @@ brd.model.local = (function() {
 	};
 
 	deleteTransaction = function(month, tid, amount, type) {
-		var transactions = stateMap.user.months[month].transactions;
+		var transactions = state.user.months[month].transactions;
 
 		for (var id in transactions) {
 			if (transactions.hasOwnProperty(id) && transactions[id].id === tid) {
@@ -235,7 +235,7 @@ brd.model.local = (function() {
 
 		subtract(amount, type, month);
 
-		save(stateMap.user.months[month], undefined, true);
+		save(state.user.months[month], undefined, true);
 
 	};
 
@@ -271,14 +271,14 @@ brd.model.local = (function() {
 	};
 
 	initModule = function() {
-		stateMap.storage = getStorageFunction();
-		var user = stateMap.storage.getItem(configMap.anonId);
+		state.storage = getStorageFunction();
+		var user = state.storage.getItem(config.anonId);
 		if (!user) {
 			user = makeUser();
-			stateMap.storage.setItem(user.id, JSON.stringify(user));
-			stateMap.user = user;
+			state.storage.setItem(user.id, JSON.stringify(user));
+			state.user = user;
 		} else {
-			stateMap.user = JSON.parse(user);
+			state.user = JSON.parse(user);
 		}
 	};
 

@@ -1,7 +1,6 @@
 brd.form = (function() {
 	'use strict';
-	var configMap = {},
-	stateMap = {
+	var state = {
 		$appendTarget: undefined,
 		formOpen: undefined,
 		child: undefined
@@ -10,7 +9,7 @@ brd.form = (function() {
 	open, close, show, load;
 
 	setJqueryMap = function() {
-		var $appendTarget = stateMap.$appendTarget;
+		var $appendTarget = state.$appendTarget;
 		jqueryMap = {
 			$appendTarget: $appendTarget,
 			$form: $appendTarget.find('.brd-form'),
@@ -35,7 +34,7 @@ brd.form = (function() {
 	};
 
 	load = function(child, data) {
-		if (stateMap.child === child) {
+		if (state.child === child) {
 			brd.form[child].load(data);
 		}
 	};
@@ -43,36 +42,36 @@ brd.form = (function() {
 	open = function() {
 		jqueryMap.$form.css('display', 'block');
 		jqueryMap.$form.animate({opacity: 1, bottom: '85px'}, 'fast');
-		stateMap.formOpen = true;
+		state.formOpen = true;
 	};
 	
 	close = function() {
 		jqueryMap.$form.animate({opacity: 0, bottom: '85px'}, 'fast', function() {
 			jqueryMap.$form.css('display', 'none');
-			if (stateMap.child)
-				brd.form[stateMap.child].close();
-			stateMap.child = null;
+			if (state.child)
+				brd.form[state.child].close();
+			state.child = null;
 		});
-		stateMap.formOpen = false;
+		state.formOpen = false;
 	};
 
 	show = function(child, data) {
 		if (!brd.form[child]) 
 			return false;
-		if (stateMap.child) {
-			brd.form[stateMap.child].close();
+		if (state.child) {
+			brd.form[state.child].close();
 			brd.form[child].open(data);
 		} else {
 			open();
 			brd.form[child].open(data);
 		}
-		stateMap.child = child;
+		state.child = child;
 		return true;
 	};
 
 	initModule = function($appendTarget, salaryData) {
 		$appendTarget.append(brd.templates.form);
-		stateMap.$appendTarget = $appendTarget;
+		state.$appendTarget = $appendTarget;
 		setJqueryMap();
 		setListeners();
 

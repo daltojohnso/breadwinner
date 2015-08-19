@@ -1,16 +1,16 @@
 brd.form.day = (function() {
 	'use strict';
-	var configMap = {
+	var config = {
 			dateFormat: 'YYYY-MM-DD'
 	},
-	stateMap = {
+	state = {
 		position: 'closed'
 	},
 	jqueryMap, setJqueryMap, initModule, setListeners,
 	open, close, load, loadTransactions, clearTransactions;
 
 	setJqueryMap = function() {
-		var $formTarget = stateMap.$formTarget;
+		var $formTarget = state.$formTarget;
 		jqueryMap = {
 			$formTarget: $formTarget,
 			$wrapper: $formTarget.find('.brd-form-day-wrapper'),
@@ -31,22 +31,22 @@ brd.form.day = (function() {
 		clearTransactions();
 
 		if (data.date) {
-			var dateString = moment(data.date, configMap.dateFormat).format('MMMM Do, YYYY');
+			var dateString = moment(data.date, config.dateFormat).format('MMMM Do, YYYY');
 			jqueryMap.$title.html(dateString);
 		}
 
 		jqueryMap.$wrapper.show();
-		stateMap.position = 'open';
+		state.position = 'open';
 		if (data && data.transactions) {
 			loadTransactions(data.transactions);
-			jqueryMap.$transactions = stateMap.$formTarget.find('.brd-transaction-list-item');
+			jqueryMap.$transactions = state.$formTarget.find('.brd-transaction-list-item');
 			setListeners();
 		}
 	};
 
 	close = function() {
 		jqueryMap.$wrapper.hide();
-		stateMap.position = 'closed';
+		state.position = 'closed';
 	};
 
 	load = function(data) {
@@ -71,7 +71,7 @@ brd.form.day = (function() {
 	//add a back button to go back to the transaction list.
 	initModule = function($formTarget) {
 		$formTarget.append(brd.templates.day);
-		stateMap.$formTarget = $formTarget;
+		state.$formTarget = $formTarget;
 		setJqueryMap();
 		setListeners();
 		close();
