@@ -80,7 +80,7 @@ brd.form.transaction = (function() {
 			dateMoment = moment(date, configMap.dateFormat);
 			if (amount > 0 && !isNaN(amount) && dateMoment.isValid()
 				&& name.length <= 20) {
-				$.event.trigger('transaction', [name, amount, date, stateMap.radioValue, id]);
+				$.event.trigger(brd.event.newTransaction, [name, amount, date, stateMap.radioValue, id]);
 				reset();
 				return true;
 			}

@@ -1,6 +1,25 @@
 var brd = (function() {
 	'use strict';
-	var initModule = function($container) {
+	var initModule, event;
+
+	event = {
+		modelUpdate: 'brd-modelUpdate',
+
+		calendarChange: 'brd-calendarChange',
+		dayClick: 'brd-dayClick',
+		dayDbClick: 'brd-dayDbClick',
+		monthClick: 'brd-monthClick',
+		barStop: 'brd-barStop',
+
+		newTransaction: 'brdTransaction',
+		salaryUpdate: 'brd-salaryUpdate',
+		deleteTransaction: 'brd-deleteTransaction',
+		transactionClick: 'brd-transactionClick',
+		transactionButtonClick: 'brd-transactionButtonClick',
+		salaryButtonClick: 'brd-salaryButtonClick'
+	};
+
+	initModule = function($container) {
 		var name;
 
 		$.ajax({
@@ -19,5 +38,8 @@ var brd = (function() {
 		});
 
 	};
-	return {initModule: initModule};
+	return {
+		initModule: initModule,
+		event: event
+	};
 }());

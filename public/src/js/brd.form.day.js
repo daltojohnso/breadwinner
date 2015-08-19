@@ -1,7 +1,7 @@
 brd.form.day = (function() {
 	'use strict';
 	var configMap = {
-		dateFormat: 'YYYY-MM-DD'
+			dateFormat: 'YYYY-MM-DD'
 	},
 	stateMap = {
 		position: 'closed'
@@ -23,7 +23,7 @@ brd.form.day = (function() {
 	setListeners = function() {
 		jqueryMap.$transactions.click(function() {
 			var id = $(this).data().id;
-			$.event.trigger('transactionclick', [id]);
+			$.event.trigger(brd.event.transactionClick, [id]);
 		});
 	};
 

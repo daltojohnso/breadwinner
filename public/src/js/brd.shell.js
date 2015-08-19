@@ -19,40 +19,8 @@ brd.shell = (function() {
 
 	setupListeners = function() {
 		$(document)
-			//model
-
-			//calendar events
-			.on('calendarchange', function(event, monthDateString) {
-				var monthData = brd.model.getMonthData(monthDateString),
-					monthTransactions = brd.model.getMonthTransactions(monthDateString);
-
-				brd.cal.recalculate(monthTransactions, monthData);
-			})
-			.on('dayclick', function(event, date) {
-				var dateString = date.format(brd.date.format.ymd),
-					transactions = brd.model.getMonthTransactions(dateString);
-
-				brd.form.show('day', {transactions: transactions, date: dateString});
-			})
-			.on('daydbclick', function(event, date) {
-				var dateString = date.format(brd.date.format.ymd);
-				brd.form.show('transaction', {date: dateString});
-			})
-			.on('monthclick', function(event, date) {
-
-			});
-
-			//form
-
-		$(document)
-			.on('transaction', function(event, name, amount, date, type, id) {
-				brd.model.add(name, amount, date, type, id);
-			})
-			.on('newsalary', function(event, salary, salaryType) {
-				var monthMoment = moment().format(brd.date.format.ym);
-				brd.model.setSalary(salary, salaryType, monthMoment);
-			})
-			.on('modelupdate', function(event, transaction, totalExpenses, totalIncome) {
+			//MODEL
+			.on(brd.event.modelUpdate, function(event, transaction, totalExpenses, totalIncome) {
 				var transactionMoment, calendarMoment = brd.cal.getDate();
 				if (transaction) {
 					transactionMoment = moment(transaction.date, brd.date.format.ymd);
@@ -68,10 +36,38 @@ brd.shell = (function() {
 				} else {
 					brd.cal.showMonth(transactionMoment);
 				}
-			});
+			})
 
-		$(document)
-			.on('deletetransaction', function(event, transaction) {
+			//CALENDAR
+			.on(brd.event.calendarChange, function(event, monthDateString) {
+				var monthData = brd.model.getMonthData(monthDateString),
+					monthTransactions = brd.model.getMonthTransactions(monthDateString);
+
+				brd.cal.recalculate(monthTransactions, monthData);
+			})
+			.on(brd.event.dayClick, function(event, date) {
+				var dateString = date.format(brd.date.format.ymd),
+					transactions = brd.model.getMonthTransactions(dateString);
+
+				brd.form.show('day', {transactions: transactions, date: dateString});
+			})
+			.on(brd.event.dayDbClick, function(event, date) {
+				var dateString = date.format(brd.date.format.ymd);
+				brd.form.show('transaction', {date: dateString});
+			})
+			.on(brd.event.monthClick, function(event, date) {
+
+			})
+
+			//FORM
+			.on(brd.event.newTransaction, function(event, name, amount, date, type, id) {
+				brd.model.add(name, amount, date, type, id);
+			})
+			.on(brd.event.salaryUpdate, function(event, salary, salaryType) {
+				var monthMoment = moment().format(brd.date.format.ym);
+				brd.model.setSalary(salary, salaryType, monthMoment);
+			})
+			.on(brd.event.deleteTransaction, function(event, transaction) {
 				var amount = +transaction.amount,
 				type = transaction.type,
 				tid = transaction.id,
@@ -79,18 +75,16 @@ brd.shell = (function() {
 
 				brd.model.deleteTransaction(month, tid, amount, type);
 			})
-			.on('transactionclick', function(event, id) {
+			.on(brd.event.transactionClick, function(event, id) {
 				var transaction = brd.model.getTransaction(id);
 				if (transaction) {
 					brd.form.show('transaction', {name: transaction.name, amount: transaction.amount, date: transaction.date, id: id});
 				}
-			});
-
-		$(document)
-			.on('transactionbuttonclick', function() {
+			})
+			.on(brd.event.transactionButtonClick, function() {
 				brd.form.show('transaction');
 			})
-			.on('salarybuttonclick', function() {
+			.on(brd.event.salaryButtonClick, function() {
 				brd.form.show('salary');
 			});
 

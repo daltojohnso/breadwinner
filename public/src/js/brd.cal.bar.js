@@ -121,7 +121,7 @@ brd.cal.bar = (function() {
 			setTimeout(function() {
 				state.bar.timeoutIds.pop()
 				if (state.bar.timeoutIds.length)
-					$.trigger('brd-bar-stopped');
+					$.event.trigger(brd.event.barStop);
 			}, barSpeed * 2);
 		}
 	};

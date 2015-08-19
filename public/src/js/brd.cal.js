@@ -36,7 +36,7 @@ brd.cal = (function() {
 
 	showMonth = function(date) {
 		jqueryMap.$calendar.fullCalendar('gotoDate', date);
-		$.event.trigger('calendarchange', [date.format(brd.date.format.ym)]);
+		$.event.trigger(brd.event.calendarChange, [date.format(brd.date.format.ym)]);
 	};
 
 	createEvent = function(name, amount, date, type, id) {
@@ -110,12 +110,12 @@ brd.cal = (function() {
 				var date = moment($(this).data().date);
 				if (state.dayClicks === 1) {
 					state.dayClickTimer = setTimeout(function() {
-						$.event.trigger('dayclick', [date]);
+						$.event.trigger(brd.event.dayClick, [date]);
 						state.dayClicks = 0;
 					}, config.dayClickTimer);
 				} else {
 					clearTimeout(state.dayClickTimer);
-					$.event.trigger('daydbclick', [date]);
+					$.event.trigger(brd.event.dayDbClick, [date]);
 					state.dayClicks = 0;
 				}
 			})
@@ -126,7 +126,7 @@ brd.cal = (function() {
 		jqueryMap.$month
 			.click(function(e) {
 				//var date = state.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
-				//$.event.trigger('monthclick', [date]);
+				//$.event.trigger(brd.event.monthClick, [date]);
 			});
 
 		$(window).resize(resize);
@@ -136,7 +136,7 @@ brd.cal = (function() {
 		jqueryMap.$buttons.click(function(e) {
 			if (!brd.cal.bar.moving()) {
 				var date = jqueryMap.$calendar.fullCalendar('getDate').format(brd.date.format.ym);
-				$.event.trigger('calendarchange', [date]);
+				$.event.trigger(brd.event.calendarChange, [date]);
 			} else {
 				//plz wait plz!
 			}
@@ -150,7 +150,7 @@ brd.cal = (function() {
 			eventRender: function(thisEvent, element) {
 				element.find('.brd-event-close').click(function() {
 					state.$calendar.fullCalendar('removeEvents', thisEvent._id);
-					$.event.trigger('deletetransaction', [thisEvent])
+					$.event.trigger(brd.event.deleteTransaction, [thisEvent])
 				});
 			},
 			eventClick: function(event, jsEvent, view) {

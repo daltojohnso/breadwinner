@@ -77,7 +77,7 @@ brd.model.local = (function() {
 		//localStorage.setItem(stateMap.user.id, JSON.stringify(stateMap.user));
 		stateMap.storage.setItem(stateMap.user.id, JSON.stringify(stateMap.user));
 		if (fireEvent)
-			$.event.trigger('modelupdate', [transaction, month.expenses, month.income + month.salary]);
+			$.event.trigger(brd.event.modelUpdate, [transaction, month.expenses, month.income + month.salary]);
 	};
 
 	addMonth = function(date, income, expenses, transactions, salary) {

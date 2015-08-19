@@ -80,7 +80,7 @@ brd.form = (function() {
 		brd.form.salary.initModule(jqueryMap.$formTarget, salaryData);
 		brd.form.day.initModule(jqueryMap.$formTarget);
 
-		$.event.trigger('dayclick', [moment()]);
+		$.event.trigger(brd.event.dayClick, [moment()]);
 	};
 
 	return {

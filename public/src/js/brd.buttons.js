@@ -23,10 +23,10 @@ brd.buttons = (function() {
 		setJqueryMap();
 
 		jqueryMap.$transactionLink.click(function(event) {
-			$.event.trigger('transactionbuttonclick');
+			$.event.trigger(brd.event.transactionButtonClick);
 		});
 		jqueryMap.$salaryLink.click(function(event) {
-			$.event.trigger('salarybuttonclick');
+			$.event.trigger(brd.event.salaryButtonClick);
 		});
 	};
 
