@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "dependencies": {
     "gulp": "^3.9.0",
-    "mongodb": "^2.0.40"
+    "mongodb": "^2.0.40",
+    "node-uuid": "^1.4.3"
   },
   "devDependencies": {
     "gulp": "^3.9.0",

@@ -37,6 +37,9 @@ brd.shell = (function() {
 					brd.cal.showMonth(transactionMoment);
 				}
 			})
+			.on(brd.event.transactionDeleted, function(transaction) {
+				//TODO: move deletion logic to this.
+			});
 
 			//CALENDAR
 			.on(brd.event.calendarChange, function(event, monthDateString) {

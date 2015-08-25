@@ -4,6 +4,7 @@ var brd = (function() {
 
 	event = {
 		modelUpdate: 'brd-modelUpdate',
+		transactionDeleted: 'brd-transactionDeleted',
 
 		calendarChange: 'brd-calendarChange',
 		dayClick: 'brd-dayClick',
