@@ -145,7 +145,6 @@ brd.model.connected = (function() {
         add: add,
         setSalary: setSalary,
         getSalary: getSalary,
-        addMonth: addMonth,
         getMonthData: getMonthData,
         deleteTransaction: deleteTransaction,
         getMonthTransactions: getMonthTransactions,

@@ -1,7 +1,10 @@
 brd.form.day = (function() {
 	'use strict';
 	var config = {
-			dateFormat: 'YYYY-MM-DD'
+			dateFormat: 'YYYY-MM-DD',
+			listTemplate: '<div class="brd-transaction-list-item ${ alternatingClass }" id="transaction${ i }" data-id="${ tid }">' +
+							'${ name } - $${ amount }' +
+						  '</div>'
 	},
 	state = {
 		position: 'closed'

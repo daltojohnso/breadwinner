@@ -39,7 +39,7 @@ brd.shell = (function() {
 			})
 			.on(brd.event.transactionDeleted, function(transaction) {
 				//TODO: move deletion logic to this.
-			});
+			})
 
 			//CALENDAR
 			.on(brd.event.calendarChange, function(event, monthDateString) {
@@ -93,7 +93,7 @@ brd.shell = (function() {
 
 	};
 	
-	initModule = function($container, name) {
+	initModule = function($container) {
 		var barData, monthTransactions, momentString, salaryData;
 		state.$container = $container;
 		$container.html(brd.templates.shell);
@@ -111,9 +111,6 @@ brd.shell = (function() {
 		brd.form.initModule(jqueryMap.$form, salaryData);
 		brd.buttons.initModule(jqueryMap.$buttons);
 		brd.login.initModule(jqueryMap.$login);
-
-		brd.login.login(name);
-
 	};
 	
 	return {initModule: initModule};
